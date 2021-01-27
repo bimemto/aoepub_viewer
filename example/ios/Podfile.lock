@@ -13,6 +13,8 @@ PODS:
   - integration_test (0.0.1):
     - Flutter
   - MenuItemKit (4.0.1)
+  - path_provider (0.0.1):
+    - Flutter
   - Realm (10.5.0):
     - Realm/Headers (= 10.5.0)
   - Realm/Headers (10.5.0)
@@ -25,6 +27,7 @@ DEPENDENCIES:
   - aoepub_viewer (from `.symlinks/plugins/aoepub_viewer/ios`)
   - Flutter (from `Flutter`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
 
 SPEC REPOS:
   trunk:
@@ -43,14 +46,17 @@ EXTERNAL SOURCES:
     :path: Flutter
   integration_test:
     :path: ".symlinks/plugins/integration_test/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
 
 SPEC CHECKSUMS:
   AEXML: 2fbb73d8724797ed2cde888731e176fa4d44dd83
-  aoepub_viewer: dde6e98125f39c618f2980c5f5716e3007b45ea8
+  aoepub_viewer: db6558f74a70b51bfa174c2954b690bdefd7a0cf
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   FontBlaster: 8897ebdbb4b6ace3ab78c92b665d88c954f19e4a
   integration_test: 5ed24a436eb7ec17b6a13046e9bf7ca4a404e59e
   MenuItemKit: 1459920e984d823e1bcc858b7a964f94e6bfa0f6
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
   Realm: e1c22c3d83b229afb70ebc10e1771c91e9542d12
   RealmSwift: 6fc078d9d3fd7e58c71bfdbb694e252462f112a5
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9

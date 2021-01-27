@@ -1,6 +1,6 @@
 name: aoepub_viewer
 description: An epub viewer flutter plugin project.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/bimemto/aoepub_viewer.git
 
 environment:
