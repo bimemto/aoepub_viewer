@@ -1,0 +1,61 @@
+PODS:
+  - AEXML (4.6.0)
+  - aoepub_viewer (0.0.1):
+    - AEXML (= 4.6.0)
+    - Flutter
+    - FontBlaster (= 5.1.1)
+    - MenuItemKit (= 4.0.1)
+    - RealmSwift (= 10.5.0)
+    - SSZipArchive (= 2.2.3)
+    - ZFDragableModalTransition (= 0.6)
+  - Flutter (1.0.0)
+  - FontBlaster (5.1.1)
+  - integration_test (0.0.1):
+    - Flutter
+  - MenuItemKit (4.0.1)
+  - Realm (10.5.0):
+    - Realm/Headers (= 10.5.0)
+  - Realm/Headers (10.5.0)
+  - RealmSwift (10.5.0):
+    - Realm (= 10.5.0)
+  - SSZipArchive (2.2.3)
+  - ZFDragableModalTransition (0.6)
+
+DEPENDENCIES:
+  - aoepub_viewer (from `.symlinks/plugins/aoepub_viewer/ios`)
+  - Flutter (from `Flutter`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+
+SPEC REPOS:
+  trunk:
+    - AEXML
+    - FontBlaster
+    - MenuItemKit
+    - Realm
+    - RealmSwift
+    - SSZipArchive
+    - ZFDragableModalTransition
+
+EXTERNAL SOURCES:
+  aoepub_viewer:
+    :path: ".symlinks/plugins/aoepub_viewer/ios"
+  Flutter:
+    :path: Flutter
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+
+SPEC CHECKSUMS:
+  AEXML: 2fbb73d8724797ed2cde888731e176fa4d44dd83
+  aoepub_viewer: dde6e98125f39c618f2980c5f5716e3007b45ea8
+  Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
+  FontBlaster: 8897ebdbb4b6ace3ab78c92b665d88c954f19e4a
+  integration_test: 5ed24a436eb7ec17b6a13046e9bf7ca4a404e59e
+  MenuItemKit: 1459920e984d823e1bcc858b7a964f94e6bfa0f6
+  Realm: e1c22c3d83b229afb70ebc10e1771c91e9542d12
+  RealmSwift: 6fc078d9d3fd7e58c71bfdbb694e252462f112a5
+  SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
+  ZFDragableModalTransition: 0d294eaaba6edfcb9839595de765f9ca06a4b524
+
+PODFILE CHECKSUM: aafe91acc616949ddb318b77800a7f51bffa2a4c
+
+COCOAPODS: 1.10.1
