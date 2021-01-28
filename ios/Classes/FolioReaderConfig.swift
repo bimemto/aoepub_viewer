@@ -113,9 +113,9 @@ open class FolioReaderConfig: NSObject {
     
     // Day mode nav color
     open var daysModeNavBackground = UIColor.white
-    open var daysModeNavBackground2 = UIColor(rgba: "#E2E2EF")
-    open var daysModeNavBackground3 = UIColor(rgba: "#E2E5EA")
-    open var daysModeNavBackground4 = UIColor(rgba: "#FFEEEE")
+    open var purpleNavBackground = UIColor(rgba: "#E2E2EF")
+    open var grayNavBackground = UIColor(rgba: "#E2E5EA")
+    open var pinkNavBackground = UIColor(rgba: "#FFEEEE")
     
     // Day mode nav color
     open var nightModeNavBackground = UIColor(rgba: "#4D4D4D")

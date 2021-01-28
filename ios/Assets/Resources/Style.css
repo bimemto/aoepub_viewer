@@ -210,6 +210,7 @@ body {
     background-color: transparent !important;
 }
 
+/*night mode*/
 html.nightMode, html.nightMode body {
     background-color: #131313 !important;
 }
@@ -228,6 +229,21 @@ html.nightMode .highlight-green {background:rgba(192, 237, 114, 0.9)}
 html.nightMode .highlight-blue {background:rgba(173, 216, 255, 0.9)}
 html.nightMode .highlight-pink {background:rgba(255, 176, 202, 0.9)}
 html.nightMode .highlight-underline {border-bottom: 2px solid rgba(240, 40, 20, 0.6)}
+
+/*purple mode*/
+html.purpleMode, html.purpleMode body {
+    background-color: #E2E2EF !important;
+}
+
+/*gray mode*/
+html.grayMode, html.grayMode body {
+    background-color: #E2E5EA !important;
+}
+
+/*pink mode*/
+html.pinkMode, html.pinkMode body {
+    background-color: #FFEEEE !important;
+}
 
 
 /*

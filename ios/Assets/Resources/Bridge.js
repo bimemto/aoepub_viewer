@@ -58,13 +58,47 @@ function setFontName(cls) {
 }
 
 // Toggle night mode
-function nightMode(enable) {
+function nightMode(colorMode) {
     var elm = document.documentElement;
-    if(enable) {
-        addClass(elm, "nightMode");
-    } else {
+    switch (colorMode) {
+      case 0:
         removeClass(elm, "nightMode");
+        removeClass(elm, "purpleMode");
+        removeClass(elm, "grayMode");
+        removeClass(elm, "pinkMode");
+        break;
+      case 1:
+        addClass(elm, "purpleMode");
+        removeClass(elm, "nightMode");
+        removeClass(elm, "grayMode");
+        removeClass(elm, "pinkMode");
+        break;
+        case 2:
+          addClass(elm, "grayMode");
+          removeClass(elm, "nightMode");
+          removeClass(elm, "purpleMode");
+          removeClass(elm, "pinkMode");
+          break;
+        case 3:
+          addClass(elm, "pinkMode");
+          removeClass(elm, "nightMode");
+          removeClass(elm, "purpleMode");
+          removeClass(elm, "grayMode");
+          break;
+        case 4:
+          addClass(elm, "nightMode");
+          removeClass(elm, "pinkMode");
+          removeClass(elm, "purpleMode");
+          removeClass(elm, "grayMode");
+          break;
+      default:
+        break;
     }
+//    if(colorMode == 4) {
+//        addClass(elm, "nightMode");
+//    } else {
+//        removeClass(elm, "nightMode");
+//    }
 }
 
 // Set font size

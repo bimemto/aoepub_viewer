@@ -99,7 +99,28 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
         var visibleHeight: CGFloat = self.readerConfig.canChangeScrollDirection ? 222 : 170
         visibleHeight = self.readerConfig.canChangeFontStyle ? visibleHeight : visibleHeight - 55
         menuView = UIView(frame: CGRect(x: 0, y: view.frame.height-visibleHeight, width: view.frame.width, height: view.frame.height))
-        menuView.backgroundColor = self.folioReader.isNight(self.readerConfig.nightModeMenuBackground, UIColor.white)
+        let colorMode = self.folioReader.isNight()
+        switch colorMode {
+        case 0:
+            menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+            break
+        case 1:
+            menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+            break
+        case 2:
+            menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+            break
+        case 3:
+            menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+            break
+        case 4:
+            menuView.backgroundColor = self.readerConfig.nightModeBackground
+            break
+        default:
+            menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+            break
+        }
+        
         menuView.autoresizingMask = .flexibleWidth
         menuView.layer.shadowColor = UIColor.black.cgColor
         menuView.layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -112,8 +133,8 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
 
         let normalColor = UIColor(white: 0.5, alpha: 0.7)
         let selectedColor = self.readerConfig.tintColor
-        let sun = UIImage(readerImageNamed: "icon-sun")
-        let moon = UIImage(readerImageNamed: "icon-moon")
+        let sun = UIImage(readerImageNamed: "ic_sun")
+        let moon = UIImage(readerImageNamed: "ic_moon")
         let fontSmall = UIImage(readerImageNamed: "icon-font-small")
         let fontBig = UIImage(readerImageNamed: "icon-font-big")
 
@@ -124,11 +145,23 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
 
         let sunSelected = sun?.imageTintColor(selectedColor)?.withRenderingMode(.alwaysOriginal)
         let moonSelected = moon?.imageTintColor(selectedColor)?.withRenderingMode(.alwaysOriginal)
+        
+        //paper color changer
+        let whiteNormal = UIImage(readerImageNamed: "ic_paper_white")
+        let whiteSelected = UIImage(readerImageNamed: "ic_paper_white_selected")
+        let purpleNormal = UIImage(readerImageNamed: "ic_paper_purple")
+        let purpleSelected = UIImage(readerImageNamed: "ic_paper_purple_selected")
+        let grayNormal = UIImage(readerImageNamed: "ic_paper_gray")
+        let graySelected = UIImage(readerImageNamed: "ic_paper_gray_selected")
+        let pinkNormal = UIImage(readerImageNamed: "ic_paper_pink")
+        let pinkSelected = UIImage(readerImageNamed: "ic_paper_pink_selected")
+        let blackNormal = UIImage(readerImageNamed: "ic_paper_black")
+        let blackSelected = UIImage(readerImageNamed: "ic_paper_black_selected")
 
         // Day night mode
         let dayNight = SMSegmentView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 55),
                                      separatorColour: self.readerConfig.nightModeSeparatorColor,
-                                     separatorWidth: 1,
+                                     separatorWidth: 0,
                                      segmentProperties:  [
                                         keySegmentTitleFont: UIFont(name: "Avenir-Light", size: 17)!,
                                         keySegmentOnSelectionColour: UIColor.clear,
@@ -139,9 +172,12 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
             ])
         dayNight.delegate = self
         dayNight.tag = 1
-        dayNight.addSegmentWithTitle(self.readerConfig.localizedFontMenuDay, onSelectionImage: sunSelected, offSelectionImage: sunNormal)
-        dayNight.addSegmentWithTitle(self.readerConfig.localizedFontMenuNight, onSelectionImage: moonSelected, offSelectionImage: moonNormal)
-        dayNight.selectSegmentAtIndex(self.folioReader.nightMode ? 1 : 0)
+        dayNight.addSegmentWithTitle("", onSelectionImage: whiteSelected, offSelectionImage: whiteNormal)
+        dayNight.addSegmentWithTitle("", onSelectionImage: purpleSelected, offSelectionImage: purpleNormal)
+        dayNight.addSegmentWithTitle("", onSelectionImage: graySelected, offSelectionImage: grayNormal)
+        dayNight.addSegmentWithTitle("", onSelectionImage: pinkSelected, offSelectionImage: pinkNormal)
+        dayNight.addSegmentWithTitle("", onSelectionImage: blackSelected, offSelectionImage: blackNormal)
+        dayNight.selectSegmentAtIndex(self.folioReader.nightMode)
         menuView.addSubview(dayNight)
 
 
@@ -272,12 +308,39 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
         guard (self.folioReader.readerCenter?.currentPage) != nil else { return }
 
         if segmentView.tag == 1 {
-
-            self.folioReader.nightMode = Bool(index == 1)
-
-            UIView.animate(withDuration: 0.6, animations: {
-                self.menuView.backgroundColor = (self.folioReader.nightMode ? self.readerConfig.nightModeBackground : self.readerConfig.daysModeNavBackground)
-            })
+            self.folioReader.nightMode = index
+            switch index {
+            case 0:
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+                })
+                break;
+            case 1:
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+                })
+                break;
+            case 2:
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+                })
+                break;
+            case 3:
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+                })
+                break;
+            case 4:
+                UIView.animate(withDuration: 0.6, animations: {
+                    self.menuView.backgroundColor = self.readerConfig.nightModeBackground
+                })
+                break;
+            default:
+                break;
+            }
+//            UIView.animate(withDuration: 0.6, animations: {
+//                self.menuView.backgroundColor = (self.folioReader.nightMode ? self.readerConfig.nightModeBackground : self.readerConfig.daysModeNavBackground)
+//            })
 
         } else if segmentView.tag == 2 {
 

@@ -130,9 +130,38 @@ class FolioReaderAddHighlightNote: UIViewController {
     }
     
     private func configureNavBar() {
-        let navBackground = folioReader.isNight(self.readerConfig.nightModeNavBackground, self.readerConfig.daysModeNavBackground)
+        let colorMode = folioReader.isNight()
+        let navBackground: UIColor!
+        let navText: UIColor!
+        switch colorMode {
+        case 0:
+            navBackground = self.readerConfig.daysModeNavBackground
+            navText = UIColor.black
+            break
+        case 1:
+            navBackground = self.readerConfig.purpleNavBackground
+            navText = UIColor.black
+            break
+        case 2:
+            navBackground = self.readerConfig.grayNavBackground
+            navText = UIColor.black
+            break
+        case 3:
+            navBackground = self.readerConfig.pinkNavBackground
+            navText = UIColor.black
+            break
+        case 4:
+            navBackground = self.readerConfig.nightModeNavBackground
+            navText = UIColor.white
+            break
+        default:
+            navBackground = self.readerConfig.daysModeNavBackground
+            navText = UIColor.black
+            break
+        }
+//        let navBackground = folioReader.isNight(self.readerConfig.nightModeNavBackground, self.readerConfig.daysModeNavBackground)
         let tintColor = readerConfig.tintColor
-        let navText = folioReader.isNight(UIColor.white, UIColor.black)
+        //let navText = folioReader.isNight(UIColor.white, UIColor.black)
         let font = UIFont(name: "Avenir-Light", size: 17)!
         setTranslucentNavigation(false, color: navBackground, tintColor: tintColor, titleColor: navText, andFont: font)
         

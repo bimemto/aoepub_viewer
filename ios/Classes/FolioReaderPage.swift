@@ -540,7 +540,7 @@ open class FolioReaderPage: UICollectionViewCell, WKNavigationDelegate, UIGestur
     @objc func refreshPageMode() {
         guard let webView = webView else { return }
 
-        if (self.folioReader.nightMode == true) {
+        if (self.folioReader.nightMode == 4) {
             // omit create webView and colorView
             let script = "document.documentElement.offsetHeight"
             webView.evaluateJavaScript(script) { (height, error) in

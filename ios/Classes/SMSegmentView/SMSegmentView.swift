@@ -62,7 +62,7 @@ class SMSegmentView: UIView, SMSegmentDelegate {
             self.setNeedsDisplay()
         }
     }
-    var separatorWidth: CGFloat = 1.0 {
+    var separatorWidth: CGFloat = 0.0 {
         didSet {
             for segment in self.segments {
                 segment.separatorWidth = self.separatorWidth

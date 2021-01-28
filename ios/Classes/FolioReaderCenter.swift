@@ -101,9 +101,9 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
       super.traitCollectionDidChange(previousTraitCollection)
         if #available(iOS 12.0, *) {
             if self.traitCollection.userInterfaceStyle == .dark {
-              folioReader.nightMode = true
+              folioReader.nightMode = 4
             }else{
-                folioReader.nightMode = false
+                folioReader.nightMode = 0
             }
         }
     }
@@ -131,7 +131,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         self.totalPages = book.spine.spineReferences.count
 
         // Loading indicator
-        let style: UIActivityIndicatorView.Style = folioReader.isNight(.white, .gray)
+        let style: UIActivityIndicatorView.Style = folioReader.isNight() == 4 ? .white : .gray
         loadingView = UIActivityIndicatorView(style: style)
         loadingView.hidesWhenStopped = true
         loadingView.startAnimating()
@@ -152,8 +152,28 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         collectionViewLayout.minimumLineSpacing = 0
         collectionViewLayout.minimumInteritemSpacing = 0
         collectionViewLayout.scrollDirection = .direction(withConfiguration: self.readerConfig)
-        
-        let background = folioReader.isNight(self.readerConfig.nightModeBackground, UIColor.white)
+        let colorMode = folioReader.isNight()
+        let background: UIColor!
+        switch colorMode {
+        case 0:
+            background = UIColor.white
+            break
+        case 1:
+            background = self.readerConfig.purpleNavBackground
+            break
+        case 2:
+            background = self.readerConfig.grayNavBackground
+            break
+        case 3:
+            background = self.readerConfig.pinkNavBackground
+            break
+        case 4:
+            background = self.readerConfig.nightModeBackground
+            break
+        default:
+            background = UIColor.white
+            break
+        }
         view.backgroundColor = background
 
         // CollectionView
@@ -262,9 +282,38 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
     }
 
     func configureNavBar() {
-        let navBackground = folioReader.isNight(self.readerConfig.nightModeNavBackground, self.readerConfig.daysModeNavBackground)
+        let colorMode = folioReader.isNight()
+        let navBackground: UIColor!
+        let navText: UIColor!
+        switch colorMode {
+        case 0:
+            navBackground = self.readerConfig.daysModeNavBackground
+            navText = UIColor.black
+            break
+        case 1:
+            navBackground = self.readerConfig.purpleNavBackground
+            navText = UIColor.black
+            break
+        case 2:
+            navBackground = self.readerConfig.grayNavBackground
+            navText = UIColor.black
+            break
+        case 3:
+            navBackground = self.readerConfig.pinkNavBackground
+            navText = UIColor.black
+            break
+        case 4:
+            navBackground = self.readerConfig.nightModeBackground
+            navText = UIColor.white
+            break
+        default:
+            navBackground = self.readerConfig.daysModeNavBackground
+            navText = UIColor.black
+            break
+        }
+//        let navBackground = folioReader.isNight(self.readerConfig.nightModeNavBackground, self.readerConfig.daysModeNavBackground)
         let tintColor = readerConfig.tintColor
-        let navText = folioReader.isNight(UIColor.white, UIColor.black)
+        //let navText = folioReader.isNight(UIColor.white, UIColor.black)
         let font = UIFont(name: "Avenir-Light", size: 17)!
         setTranslucentNavigation(color: navBackground, tintColor: tintColor, titleColor: navText, andFont: font)
     }
@@ -495,7 +544,7 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         classes += " " + folioReader.currentMediaOverlayStyle.className()
 
         // Night mode
-        if folioReader.nightMode {
+        if folioReader.nightMode == 4 {
             classes += " nightMode"
         }
 

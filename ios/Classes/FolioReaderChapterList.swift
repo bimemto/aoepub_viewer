@@ -47,8 +47,16 @@ class FolioReaderChapterList: UITableViewController {
         // Register cell classes
         self.tableView.register(FolioReaderChapterListCell.self, forCellReuseIdentifier: kReuseCellIdentifier)
         self.tableView.separatorInset = UIEdgeInsets.zero
-        self.tableView.backgroundColor = self.folioReader.isNight(self.readerConfig.nightModeMenuBackground, self.readerConfig.menuBackgroundColor)
-        self.tableView.separatorColor = self.folioReader.isNight(self.readerConfig.nightModeSeparatorColor, self.readerConfig.menuSeparatorColor)
+        let colorMode = self.folioReader.isNight()
+        if(colorMode == 4) {
+            self.tableView.backgroundColor = self.readerConfig.nightModeMenuBackground
+            self.tableView.separatorColor = self.readerConfig.nightModeSeparatorColor
+        } else {
+            self.tableView.backgroundColor = self.readerConfig.menuBackgroundColor
+            self.tableView.separatorColor = self.readerConfig.menuSeparatorColor
+        }
+//        self.tableView.backgroundColor = self.folioReader.isNight(self.readerConfig.nightModeMenuBackground, self.readerConfig.menuBackgroundColor)
+//        self.tableView.separatorColor = self.folioReader.isNight(self.readerConfig.nightModeSeparatorColor, self.readerConfig.menuSeparatorColor)
 
         self.tableView.rowHeight = UITableView.automaticDimension
         self.tableView.estimatedRowHeight = 50

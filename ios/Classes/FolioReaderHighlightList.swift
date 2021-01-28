@@ -29,9 +29,16 @@ class FolioReaderHighlightList: UITableViewController {
 
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: kReuseCellIdentifier)
         self.tableView.separatorInset = UIEdgeInsets.zero
-        self.tableView.backgroundColor = self.folioReader.isNight(self.readerConfig.nightModeMenuBackground, self.readerConfig.menuBackgroundColor)
-        self.tableView.separatorColor = self.folioReader.isNight(self.readerConfig.nightModeSeparatorColor, self.readerConfig.menuSeparatorColor)
-
+//        self.tableView.backgroundColor = self.folioReader.isNight(self.readerConfig.nightModeMenuBackground, self.readerConfig.menuBackgroundColor)
+//        self.tableView.separatorColor = self.folioReader.isNight(self.readerConfig.nightModeSeparatorColor, self.readerConfig.menuSeparatorColor)
+        let colorMode = self.folioReader.isNight()
+        if(colorMode == 4) {
+            self.tableView.backgroundColor = self.readerConfig.nightModeMenuBackground
+            self.tableView.separatorColor = self.readerConfig.nightModeSeparatorColor
+        } else {
+            self.tableView.backgroundColor = self.readerConfig.menuBackgroundColor
+            self.tableView.separatorColor = self.readerConfig.menuSeparatorColor
+        }
         guard let bookId = (self.folioReader.readerContainer?.book.name as NSString?)?.deletingPathExtension else {
             self.highlights = []
             return
@@ -74,7 +81,7 @@ class FolioReaderHighlightList: UITableViewController {
         }
 
         dateLabel.text = dateString.uppercased()
-        dateLabel.textColor = self.folioReader.isNight(UIColor(white: 5, alpha: 0.3), UIColor.lightGray)
+        dateLabel.textColor = self.folioReader.isNight() == 4 ? UIColor(white: 5, alpha: 0.3) : UIColor.lightGray
         dateLabel.frame = CGRect(x: 20, y: 20, width: view.frame.width-40, height: dateLabel.frame.height)
 
         // Text
@@ -83,7 +90,7 @@ class FolioReaderHighlightList: UITableViewController {
         let range = NSRange(location: 0, length: text.length)
         let paragraph = NSMutableParagraphStyle()
         paragraph.lineSpacing = 3
-        let textColor = self.folioReader.isNight(self.readerConfig.menuTextColor, UIColor.black)
+        let textColor = self.folioReader.isNight() == 4 ? self.readerConfig.menuTextColor : UIColor.black
 
         text.addAttribute(NSAttributedString.Key.paragraphStyle, value: paragraph, range: range)
         text.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Avenir-Light", size: 16)!, range: range)
@@ -91,10 +98,10 @@ class FolioReaderHighlightList: UITableViewController {
 
         if (highlight.type == HighlightStyle.underline.rawValue) {
             text.addAttribute(NSAttributedString.Key.backgroundColor, value: UIColor.clear, range: range)
-            text.addAttribute(NSAttributedString.Key.underlineColor, value: HighlightStyle.colorForStyle(highlight.type, nightMode: self.folioReader.nightMode), range: range)
+            text.addAttribute(NSAttributedString.Key.underlineColor, value: HighlightStyle.colorForStyle(highlight.type, nightMode: self.folioReader.nightMode == 4), range: range)
             text.addAttribute(NSAttributedString.Key.underlineStyle, value: NSNumber(value: NSUnderlineStyle.single.rawValue as Int), range: range)
         } else {
-            text.addAttribute(NSAttributedString.Key.backgroundColor, value: HighlightStyle.colorForStyle(highlight.type, nightMode: self.folioReader.nightMode), range: range)
+            text.addAttribute(NSAttributedString.Key.backgroundColor, value: HighlightStyle.colorForStyle(highlight.type, nightMode: self.folioReader.nightMode == 4), range: range)
         }
 
         // Text

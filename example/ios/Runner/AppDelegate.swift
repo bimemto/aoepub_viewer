@@ -1,5 +1,6 @@
 import UIKit
 import Flutter
+import aoepub_viewer
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {

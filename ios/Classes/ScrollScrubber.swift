@@ -104,7 +104,7 @@ class ScrollScrubber: NSObject, UIScrollViewDelegate {
 
     func reloadColors() {
         slider.minimumTrackTintColor = readerConfig.tintColor
-        slider.maximumTrackTintColor = folioReader.isNight(readerConfig.nightModeSeparatorColor, readerConfig.menuSeparatorColor)
+        slider.maximumTrackTintColor = folioReader.isNight() == 4 ? readerConfig.nightModeSeparatorColor : readerConfig.menuSeparatorColor
     }
 
     // MARK: - slider events

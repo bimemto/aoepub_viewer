@@ -126,8 +126,9 @@ open class FolioReader: NSObject {
         return (self.readerContainer?.book.spine.isRtl == true && self.readerContainer?.readerConfig.scrollDirection == .horizontal)
     }
 
-    func isNight<T>(_ f: T, _ l: T) -> T {
-        return (self.nightMode == true ? f : l)
+    func isNight() -> Int {
+        //return (self.nightMode == true ? f : l)
+        return self.nightMode
     }
 
     /// UserDefault for the current ePub file.
@@ -181,8 +182,8 @@ extension FolioReader {
     }
 
     /// Check if current theme is Night mode
-    open var nightMode: Bool {
-        get { return self.defaults.bool(forKey: kNightMode) }
+    open var nightMode: Int {
+        get { return self.defaults.integer(forKey: kNightMode) }
         set (value) {
             self.defaults.set(value, forKey: kNightMode)
 
@@ -192,13 +193,36 @@ extension FolioReader {
                     readerCenter.pageIndicatorView?.reloadColors()
                     readerCenter.configureNavBar()
                     readerCenter.scrollScrubber?.reloadColors()
-                    readerCenter.collectionView.backgroundColor = (self.nightMode == true ? self.readerContainer?.readerConfig.nightModeBackground : UIColor.white)
+//                    readerCenter.collectionView.backgroundColor = (self.nightMode == true ? self.readerContainer?.readerConfig.nightModeBackground : self.readerContainer?.readerConfig.pinkNavBackground)
+                    switch self.nightMode {
+                        case 0:
+                            readerCenter.collectionView.backgroundColor = self.readerContainer?.readerConfig.daysModeNavBackground
+                            break
+                        case 1:
+                            readerCenter.collectionView.backgroundColor = self.readerContainer?.readerConfig.purpleNavBackground
+                            break
+                        case 2:
+                            readerCenter.collectionView.backgroundColor = self.readerContainer?.readerConfig.grayNavBackground
+                            break
+                        case 3:
+                            readerCenter.collectionView.backgroundColor = self.readerContainer?.readerConfig.pinkNavBackground
+                            break
+                        case 4:
+                            readerCenter.collectionView.backgroundColor = self.readerContainer?.readerConfig.nightModeBackground
+                            break
+                        default:
+                            break
+                    }
                 }, completion: { (finished: Bool) in
                     NotificationCenter.default.post(name: Notification.Name(rawValue: "needRefreshPageMode"), object: nil)
                 })
             }
         }
     }
+    
+//    fileprivate func setBackgroundColor() {
+//
+//    }
 
     /// Check current font name. Default .andada
     open var currentFont: FolioReaderFont {
