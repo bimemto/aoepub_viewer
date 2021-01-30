@@ -97,6 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
       enableTts: true,
     );
     AoepubViewer.open(tmpPath);
+    AoepubViewer.debugStream.listen((event) {
+      print("debug reading time: " + event.toString());
+    });
   }
 
   Future<String> decryptFile(filePath) async {

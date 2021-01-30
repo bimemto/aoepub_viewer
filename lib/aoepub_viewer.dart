@@ -15,6 +15,7 @@ part 'utils/util.dart';
 class AoepubViewer {
   static const MethodChannel _channel = const MethodChannel('aoepub_viewer');
   static const EventChannel _pageChannel = const EventChannel('page');
+  static const EventChannel _debugChannel = const EventChannel('com.oe.debug');
 
   /// Configure Viewer's with available values
   ///
@@ -73,5 +74,13 @@ class AoepubViewer {
         .map((value) => Platform.isAndroid ? value : '{}');
 
     return pageStream;
+  }
+
+  static Stream get debugStream {
+    Stream stream = _debugChannel
+        .receiveBroadcastStream()
+        .map((value) => print("ahihi: " + value));
+
+    return stream;
   }
 }
