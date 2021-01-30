@@ -91,7 +91,26 @@ open class FolioReaderPage: UICollectionViewCell, WKNavigationDelegate, UIGestur
         webView?.navigationDelegate = self
         if colorView == nil {
             colorView = UIView()
-            colorView.backgroundColor = self.readerConfig.nightModeBackground
+            let colorMode = self.folioReader.isNight()
+            switch colorMode {
+            case 0:
+                colorView.backgroundColor = self.readerConfig.daysModeNavBackground
+                break
+            case 1:
+                colorView.backgroundColor = self.readerConfig.purpleNavBackground
+                break
+            case 2:
+                colorView.backgroundColor = self.readerConfig.grayNavBackground
+                break
+            case 3:
+                colorView.backgroundColor = self.readerConfig.pinkNavBackground
+                break
+            case 4:
+                colorView.backgroundColor = self.readerConfig.nightModeBackground
+                break
+            default:
+                break
+            }
             webView?.scrollView.addSubview(colorView)
         }
 
@@ -540,7 +559,9 @@ open class FolioReaderPage: UICollectionViewCell, WKNavigationDelegate, UIGestur
     @objc func refreshPageMode() {
         guard let webView = webView else { return }
 
-        if (self.folioReader.nightMode == 4) {
+        if (self.folioReader.nightMode == 0) {
+            colorView.frame = CGRect.zero
+        } else {
             // omit create webView and colorView
             let script = "document.documentElement.offsetHeight"
             webView.evaluateJavaScript(script) { (height, error) in
@@ -549,9 +570,6 @@ open class FolioReaderPage: UICollectionViewCell, WKNavigationDelegate, UIGestur
                 let lastPageHeight = frameHeight  - contentHeight
                 self.colorView.frame = CGRect(x: webView.frame.width, y: webView.frame.height - lastPageHeight, width: webView.frame.width, height: lastPageHeight)
             }
-
-        } else {
-            colorView.frame = CGRect.zero
         }
     }
     

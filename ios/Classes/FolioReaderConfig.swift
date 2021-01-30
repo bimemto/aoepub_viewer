@@ -116,15 +116,16 @@ open class FolioReaderConfig: NSObject {
     open var purpleNavBackground = UIColor(rgba: "#E2E2EF")
     open var grayNavBackground = UIColor(rgba: "#E2E5EA")
     open var pinkNavBackground = UIColor(rgba: "#FFEEEE")
+    open var nightModeControlColor = UIColor.white
     
     // Day mode nav color
-    open var nightModeNavBackground = UIColor(rgba: "#4D4D4D")
+    open var nightModeNavBackground = UIColor(rgba: "#131313")
     
     /// Night mode background color
-    open var nightModeBackground = UIColor(rgba: "#4D4D4D")
+    open var nightModeBackground = UIColor(rgba: "#131313")
 
     /// Night mode menu background color
-    open var nightModeMenuBackground = UIColor(rgba: "#1E1E1E")
+    open var nightModeMenuBackground = UIColor(rgba: "#131313")
 
     /// Night mode separator color
     open var nightModeSeparatorColor = UIColor(white: 0.5, alpha: 0.2)
@@ -203,20 +204,20 @@ open class FolioReaderConfig: NSObject {
     open var localizedFontMenuNight = NSLocalizedString("Night", comment: "")
     open var localizedPlayerMenuStyle = NSLocalizedString("Style", comment: "")
     open var localizedFontMenuDay = NSLocalizedString("Day", comment: "")
-    open var localizedLayoutHorizontal = NSLocalizedString("Horizontal", comment: "")
-    open var localizedLayoutVertical = NSLocalizedString("Vertical", comment: "")
-    open var localizedReaderOnePageLeft = NSLocalizedString("1 page left", comment: "")
-    open var localizedReaderManyPagesLeft = NSLocalizedString("pages left", comment: "")
-    open var localizedReaderManyMinutes = NSLocalizedString("minutes", comment: "")
-    open var localizedReaderOneMinute = NSLocalizedString("1 minute", comment: "")
-    open var localizedReaderLessThanOneMinute = NSLocalizedString("Less than a minute", comment: "")
+    open var localizedLayoutHorizontal = NSLocalizedString("Kéo ngang", comment: "")
+    open var localizedLayoutVertical = NSLocalizedString("Vuốt lên", comment: "")
+    open var localizedReaderOnePageLeft = NSLocalizedString("còn 1 trang", comment: "")
+    open var localizedReaderManyPagesLeft = NSLocalizedString("trang còn lại", comment: "")
+    open var localizedReaderManyMinutes = NSLocalizedString("phút", comment: "")
+    open var localizedReaderOneMinute = NSLocalizedString("1 phút", comment: "")
+    open var localizedReaderLessThanOneMinute = NSLocalizedString("Gần 1 phút", comment: "")
     open var localizedShareWebLink: URL? = nil
     open var localizedShareChapterSubject = NSLocalizedString("Check out this chapter from", comment: "")
     open var localizedShareHighlightSubject = NSLocalizedString("Notes from", comment: "")
     open var localizedShareAllExcerptsFrom = NSLocalizedString("All excerpts from", comment: "")
     open var localizedShareBy = NSLocalizedString("by", comment: "")
     open var localizedCancel = NSLocalizedString("Cancel", comment: "")
-    open var localizedShare = NSLocalizedString("Share", comment: "")
+    open var localizedShare = NSLocalizedString("Chia sẻ", comment: "")
     open var localizedChooseExisting = NSLocalizedString("Choose existing", comment: "")
     open var localizedTakePhoto = NSLocalizedString("Take Photo", comment: "")
     open var localizedShareImageQuote = NSLocalizedString("Share image quote", comment: "")

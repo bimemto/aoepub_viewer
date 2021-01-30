@@ -544,9 +544,25 @@ open class FolioReaderCenter: UIViewController, UICollectionViewDelegate, UIColl
         classes += " " + folioReader.currentMediaOverlayStyle.className()
 
         // Night mode
-        if folioReader.nightMode == 4 {
+        switch folioReader.nightMode {
+        case 1:
+            classes += " purpleMode"
+            break
+        case 2:
+            classes += " grayMode"
+            break
+        case 3:
+            classes += " pinkMode"
+            break
+        case 4:
             classes += " nightMode"
+            break
+        default:
+            break
         }
+//        if folioReader.nightMode == 4 {
+//            classes += " nightMode"
+//        }
 
         // Font Size
         classes += " \(folioReader.currentFontSize.cssIdentifier)"

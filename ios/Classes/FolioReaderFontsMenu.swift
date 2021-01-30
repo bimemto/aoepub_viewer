@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Popover
 
 public enum FolioReaderFont: Int {
     case andada = 0
@@ -68,9 +69,19 @@ public enum FolioReaderFontSize: Int {
 
 class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRecognizerDelegate {
     var menuView: UIView!
-
+    var btnChangeFont: UIButton!
     fileprivate var readerConfig: FolioReaderConfig
     fileprivate var folioReader: FolioReader
+    var statusBarStyle: UIStatusBarStyle = .default
+    
+    fileprivate var texts = ["Bookerly", "Georgia", "Baskerville", "Raleway"]
+
+      fileprivate var popover: Popover!
+      fileprivate var popoverOptions: [PopoverOption] = [
+        .type(.up),
+        .cornerRadius(10),
+        .blackOverlayColor(UIColor(white: 0.0, alpha: 0.6))
+      ]
 
     init(folioReader: FolioReader, readerConfig: FolioReaderConfig) {
         self.readerConfig = readerConfig
@@ -94,9 +105,10 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
         tapGesture.numberOfTapsRequired = 1
         tapGesture.delegate = self
         view.addGestureRecognizer(tapGesture)
-
+        let menuHeightFull: CGFloat = hasTopNotch ? 266 : 232
+        let menuHeightLack: CGFloat = hasTopNotch ? 214 : 180
         // Menu view
-        var visibleHeight: CGFloat = self.readerConfig.canChangeScrollDirection ? 222 : 170
+        var visibleHeight: CGFloat = self.readerConfig.canChangeScrollDirection ? menuHeightFull : menuHeightLack
         visibleHeight = self.readerConfig.canChangeFontStyle ? visibleHeight : visibleHeight - 55
         menuView = UIView(frame: CGRect(x: 0, y: view.frame.height-visibleHeight, width: view.frame.width, height: view.frame.height))
         let colorMode = self.folioReader.isNight()
@@ -131,7 +143,7 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
         menuView.layer.shouldRasterize = true
         view.addSubview(menuView)
 
-        let normalColor = UIColor(white: 0.5, alpha: 0.7)
+        let normalColor = UIColor(rgba: "#BDBDBD") //UIColor(white: 0.5, alpha: 0.7)
         let selectedColor = self.readerConfig.tintColor
         let sun = UIImage(readerImageNamed: "ic_sun")
         let moon = UIImage(readerImageNamed: "ic_moon")
@@ -157,9 +169,9 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
         let pinkSelected = UIImage(readerImageNamed: "ic_paper_pink_selected")
         let blackNormal = UIImage(readerImageNamed: "ic_paper_black")
         let blackSelected = UIImage(readerImageNamed: "ic_paper_black_selected")
-
+        
         // Day night mode
-        let dayNight = SMSegmentView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 55),
+        let dayNight = SMSegmentView(frame: CGRect(x: 0, y: 0, width: view.frame.width - 60, height: 55),
                                      separatorColour: self.readerConfig.nightModeSeparatorColor,
                                      separatorWidth: 0,
                                      segmentProperties:  [
@@ -178,12 +190,36 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
         dayNight.addSegmentWithTitle("", onSelectionImage: pinkSelected, offSelectionImage: pinkNormal)
         dayNight.addSegmentWithTitle("", onSelectionImage: blackSelected, offSelectionImage: blackNormal)
         dayNight.selectSegmentAtIndex(self.folioReader.nightMode)
-        menuView.addSubview(dayNight)
+        //dayNight.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Separator
+        let vertialSeparator = UIView(frame: CGRect(x: dayNight.frame.width + dayNight.frame.origin.x, y: 11, width: 2, height: 33))
+        vertialSeparator.backgroundColor = UIColor(rgba: "#C4C4C4")
+        // font button
+        let iconFontLight = UIImage(readerImageNamed: "ic_change_font")
+        let iconFontDark = iconFontLight?.imageTintColor(UIColor.white)?.withRenderingMode(.alwaysOriginal)
+        btnChangeFont = UIButton(frame: CGRect(x: vertialSeparator.frame.width + vertialSeparator.frame.origin.x, y: 2.5, width: 50, height: 50))
+        if(self.folioReader.isNight() == 4) {
+            btnChangeFont.setImage(iconFontDark, for: .normal)
+        } else {
+            btnChangeFont.setImage(iconFontLight, for: .normal)
+        }
+        btnChangeFont.addTarget(self, action: #selector(didBtnChangeFontClick), for: .touchUpInside)
 
+        
+        //color & font container
+        let container: UIStackView = UIStackView(frame: CGRect(x: 0, y: 10, width: view.frame.width, height: 55))
+        container.axis = .horizontal
+        container.alignment = .fill
+        container.distribution = .fill
+        container.addSubview(dayNight)
+        container.addSubview(vertialSeparator)
+        container.addSubview(btnChangeFont)
+        menuView.addSubview(container)
 
         // Separator
         let line = UIView(frame: CGRect(x: 0, y: dayNight.frame.height+dayNight.frame.origin.y, width: view.frame.width, height: 1))
-        line.backgroundColor = self.readerConfig.nightModeSeparatorColor
+        line.backgroundColor = UIColor(rgba: "#00000000")
         menuView.addSubview(line)
 
         // Fonts adjust
@@ -215,7 +251,7 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
 
         // Separator 2
         let line2 = UIView(frame: CGRect(x: 0, y: fontName.frame.height+fontName.frame.origin.y, width: view.frame.width, height: 1))
-        line2.backgroundColor = self.readerConfig.nightModeSeparatorColor
+        line2.backgroundColor = UIColor(rgba: "#00000000")
         menuView.addSubview(line2)
 
         // Font slider size
@@ -231,7 +267,7 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
         slider.thumbColor = selectedColor
 
         slider.backgroundColor = UIColor.clear
-        slider.tintColor = self.readerConfig.nightModeSeparatorColor
+        slider.tintColor = normalColor//self.readerConfig.nightModeSeparatorColor
         slider.minimumValue = 0
         slider.value = CGFloat(self.folioReader.currentFontSize.rawValue)
         slider.addTarget(self, action: #selector(FolioReaderFontsMenu.sliderValueChanged(_:)), for: UIControl.Event.valueChanged)
@@ -261,20 +297,24 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
 
         // Separator 3
         let line3 = UIView(frame: CGRect(x: 0, y: line2.frame.origin.y+56, width: view.frame.width, height: 1))
-        line3.backgroundColor = self.readerConfig.nightModeSeparatorColor
+        line3.backgroundColor = UIColor(rgba: "#00000000")
         menuView.addSubview(line3)
 
-        let vertical = UIImage(readerImageNamed: "icon-menu-vertical")
-        let horizontal = UIImage(readerImageNamed: "icon-menu-horizontal")
-        let verticalNormal = vertical?.imageTintColor(normalColor)?.withRenderingMode(.alwaysOriginal)
-        let horizontalNormal = horizontal?.imageTintColor(normalColor)?.withRenderingMode(.alwaysOriginal)
-        let verticalSelected = vertical?.imageTintColor(selectedColor)?.withRenderingMode(.alwaysOriginal)
-        let horizontalSelected = horizontal?.imageTintColor(selectedColor)?.withRenderingMode(.alwaysOriginal)
+//        let vertical = UIImage(readerImageNamed: "icon-menu-vertical")
+//        let horizontal = UIImage(readerImageNamed: "icon-menu-horizontal")
+//        let verticalNormal = vertical?.imageTintColor(normalColor)?.withRenderingMode(.alwaysOriginal)
+//        let horizontalNormal = horizontal?.imageTintColor(normalColor)?.withRenderingMode(.alwaysOriginal)
+//        let verticalSelected = vertical?.imageTintColor(selectedColor)?.withRenderingMode(.alwaysOriginal)
+//        let horizontalSelected = horizontal?.imageTintColor(selectedColor)?.withRenderingMode(.alwaysOriginal)
+        let verticalNormal = UIImage(readerImageNamed: "ic_vertical_scroll")
+        let verticalSelected = UIImage(readerImageNamed: "ic_vertical_scroll_active")
+        let horizontalNormal = UIImage(readerImageNamed: "ic_horizontal_scroll")
+        let horizontalSelected = UIImage(readerImageNamed: "ic_horizontal_scroll_active")
 
         // Layout direction
         let layoutDirection = SMSegmentView(frame: CGRect(x: 0, y: line3.frame.origin.y, width: view.frame.width, height: 55),
                                             separatorColour: self.readerConfig.nightModeSeparatorColor,
-                                            separatorWidth: 1,
+                                            separatorWidth: 0,
                                             segmentProperties:  [
                                                 keySegmentTitleFont: UIFont(name: "Avenir-Light", size: 17)!,
                                                 keySegmentOnSelectionColour: UIColor.clear,
@@ -309,30 +349,47 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
 
         if segmentView.tag == 1 {
             self.folioReader.nightMode = index
+            let fontIconLight = UIImage(readerImageNamed: "ic_change_font")
+            let fontIconDark = fontIconLight?.imageTintColor(UIColor.white)?.withRenderingMode(.alwaysOriginal)
             switch index {
             case 0:
                 UIView.animate(withDuration: 0.6, animations: {
                     self.menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+                    self.btnChangeFont?.setImage(fontIconLight, for: .normal)
+                    self.statusBarStyle = UIStatusBarStyle.default
+                    self.setNeedsStatusBarAppearanceUpdate()
                 })
                 break;
             case 1:
                 UIView.animate(withDuration: 0.6, animations: {
                     self.menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+                    self.btnChangeFont?.setImage(fontIconLight, for: .normal)
+                    self.statusBarStyle = UIStatusBarStyle.default
+                    self.setNeedsStatusBarAppearanceUpdate()
                 })
                 break;
             case 2:
                 UIView.animate(withDuration: 0.6, animations: {
                     self.menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+                    self.btnChangeFont?.setImage(fontIconLight, for: .normal)
+                    self.statusBarStyle = UIStatusBarStyle.default
+                    self.setNeedsStatusBarAppearanceUpdate()
                 })
                 break;
             case 3:
                 UIView.animate(withDuration: 0.6, animations: {
                     self.menuView.backgroundColor = self.readerConfig.daysModeNavBackground
+                    self.btnChangeFont?.setImage(fontIconLight, for: .normal)
+                    self.statusBarStyle = UIStatusBarStyle.default
+                    self.setNeedsStatusBarAppearanceUpdate()
                 })
                 break;
             case 4:
                 UIView.animate(withDuration: 0.6, animations: {
                     self.menuView.backgroundColor = self.readerConfig.nightModeBackground
+                    self.btnChangeFont?.setImage(fontIconDark, for: .normal)
+                    self.statusBarStyle = UIStatusBarStyle.lightContent
+                    self.setNeedsStatusBarAppearanceUpdate()
                 })
                 break;
             default:
@@ -390,4 +447,61 @@ class FolioReaderFontsMenu: UIViewController, SMSegmentViewDelegate, UIGestureRe
     override var prefersStatusBarHidden : Bool {
         return (self.readerConfig.shouldHideNavigationOnTap == true)
     }
+    
+    var hasTopNotch: Bool {
+        if #available(iOS 13.0,  *) {
+            return UIApplication.shared.windows.filter {$0.isKeyWindow}.first?.safeAreaInsets.top ?? 0 > 20
+        } else if #available(iOS 11.0,  *){
+            return UIApplication.shared.delegate?.window??.safeAreaInsets.top ?? 0 > 20
+        }
+        return false
+    }
+    
+    @objc func didBtnChangeFontClick(_ sender: UIButton) {
+        let tableView = UITableView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width/2, height: 200))
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.isScrollEnabled = false
+        self.popover = Popover(options: self.popoverOptions)
+        self.popover.willShowHandler = {
+          print("willShowHandler")
+        }
+        self.popover.didShowHandler = {
+          print("didDismissHandler")
+        }
+        self.popover.willDismissHandler = {
+          print("willDismissHandler")
+        }
+        self.popover.didDismissHandler = {
+          print("didDismissHandler")
+        }
+        self.popover.show(tableView, fromView: self.btnChangeFont)
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return self.statusBarStyle
+    }
+}
+
+extension FolioReaderFontsMenu: UITableViewDelegate {
+
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    print((indexPath as NSIndexPath).row)
+    self.folioReader.currentFont = FolioReaderFont(rawValue: (indexPath as NSIndexPath).row)!
+    self.popover.dismiss()
+  }
+}
+
+extension FolioReaderFontsMenu: UITableViewDataSource {
+
+  func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int{
+    return 4
+  }
+
+  func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
+    cell.textLabel?.text = self.texts[(indexPath as NSIndexPath).row]
+    cell.textLabel?.font = UIFont(name: self.texts[(indexPath as NSIndexPath).row].lowercased(), size: 18.0)
+    return cell
+  }
 }

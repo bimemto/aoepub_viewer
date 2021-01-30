@@ -5,6 +5,7 @@ PODS:
     - Flutter
     - FontBlaster (= 5.1.1)
     - MenuItemKit (= 4.0.1)
+    - Popover (= 1.3.0)
     - RealmSwift (= 10.5.0)
     - SSZipArchive (= 2.2.3)
     - ZFDragableModalTransition (= 0.6)
@@ -15,6 +16,7 @@ PODS:
   - MenuItemKit (4.0.1)
   - path_provider (0.0.1):
     - Flutter
+  - Popover (1.3.0)
   - Realm (10.5.0):
     - Realm/Headers (= 10.5.0)
   - Realm/Headers (10.5.0)
@@ -34,6 +36,7 @@ SPEC REPOS:
     - AEXML
     - FontBlaster
     - MenuItemKit
+    - Popover
     - Realm
     - RealmSwift
     - SSZipArchive
@@ -51,12 +54,13 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AEXML: 2fbb73d8724797ed2cde888731e176fa4d44dd83
-  aoepub_viewer: db6558f74a70b51bfa174c2954b690bdefd7a0cf
+  aoepub_viewer: aea4d58bd41c09a51ba44933e5bb3db22bee0a81
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   FontBlaster: 8897ebdbb4b6ace3ab78c92b665d88c954f19e4a
   integration_test: 5ed24a436eb7ec17b6a13046e9bf7ca4a404e59e
   MenuItemKit: 1459920e984d823e1bcc858b7a964f94e6bfa0f6
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  Popover: 10e1d9528f81d9504df984b7b3f491292bc1822d
   Realm: e1c22c3d83b229afb70ebc10e1771c91e9542d12
   RealmSwift: 6fc078d9d3fd7e58c71bfdbb694e252462f112a5
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9

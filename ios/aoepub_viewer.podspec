@@ -33,6 +33,7 @@ A new flutter plugin project.
   s.dependency 'AEXML', '4.6.0'
   s.dependency 'FontBlaster', '5.1.1'
   s.dependency 'RealmSwift', '10.5.0'
+  s.dependency 'Popover', '1.3.0'
   
   s.ios.deployment_target = '9.0'
 end
