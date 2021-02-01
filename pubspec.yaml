@@ -31,7 +31,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.oe.epubviewer.aoepub_viewer
+        package: com.oe.aoepub_viewer
         pluginClass: AoepubViewerPlugin
       ios:
         pluginClass: AoepubViewerPlugin

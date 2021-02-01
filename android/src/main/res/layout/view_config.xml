@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    tools:layout_gravity="bottom">
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/view_config_ib_day_mode"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:background="@android:color/transparent"-->
+    <!--        app:layout_constraintEnd_toStartOf="@+id/view_config_ib_night_mode"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:srcCompat="@drawable/icon_sun_sel"-->
+    <!--        tools:ignore="MissingConstraints" />-->
+
+    <!--    <ImageButton-->
+    <!--        android:id="@+id/view_config_ib_night_mode"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:background="@android:color/transparent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/view_config_ib_day_mode"-->
+    <!--        app:srcCompat="@drawable/icon_moon_sel"-->
+    <!--        tools:ignore="MissingConstraints" />-->
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginHorizontal="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toStartOf="@+id/btnFont"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/btnWhite"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/paper_white_selector"
+                android:button="@android:color/transparent" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/btnPurple"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/paper_purple_selector"
+                android:button="@android:color/transparent" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/btnGray"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/paper_gray_selector"
+                android:button="@android:color/transparent" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/btnPink"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/paper_pink_selector"
+                android:button="@android:color/transparent" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1">
+
+            <RadioButton
+                android:id="@+id/btnBlack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/paper_black_selector"
+                android:button="@android:color/transparent" />
+
+        </FrameLayout>
+
+    </RadioGroup>
+
+    <View
+        android:id="@+id/vertial_separator"
+        android:layout_width="2dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:background="#c4c4c4"
+        app:layout_constraintStart_toEndOf="@id/radio_group"
+        app:layout_constraintTop_toBottomOf="@+id/btnFont"
+        app:layout_constraintTop_toTopOf="@id/radio_group" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnFont"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_click"
+        android:src="@drawable/ic_change_font"
+        app:layout_constraintBottom_toBottomOf="@+id/radio_group"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radio_group"
+        tools:ignore="MissingConstraints" />
+
+    <!--    <View-->
+    <!--        android:id="@+id/view3"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="@color/grey_color"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/btnFont" />-->
+
+    <!--    <Spinner-->
+    <!--        android:id="@+id/view_config_font_spinner"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/view3" />-->
+
+    <!--    <View-->
+    <!--        android:id="@+id/view4"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="@color/grey_color"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/radio_group" />-->
+
+    <ImageView
+        android:id="@+id/view_config_iv_label_font_small"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="15dp"
+        android:adjustViewBounds="false"
+        android:scaleType="center"
+        app:layout_constraintEnd_toStartOf="@+id/view_config_font_size_seek_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group"
+        app:srcCompat="@drawable/ic_format_font_black_24dp"
+        app:tint="@color/grey_color" />
+
+    <ImageView
+        android:id="@+id/view_config_iv_label_font_big"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_marginTop="15dp"
+        android:cropToPadding="false"
+        android:scaleType="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/view_config_font_size_seek_bar"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group"
+        app:srcCompat="@drawable/ic_format_font_black_36dp"
+        app:tint="@color/grey_color" />
+
+    <SeekBar
+        android:id="@+id/view_config_font_size_seek_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="4"
+        app:layout_constraintEnd_toStartOf="@+id/view_config_iv_label_font_big"
+        app:layout_constraintStart_toEndOf="@+id/view_config_iv_label_font_small"
+        app:layout_constraintTop_toBottomOf="@+id/radio_group" />
+
+    <!--    <View-->
+    <!--        android:id="@+id/view5"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:background="@color/grey_color"-->
+    <!--        app:layout_constraintBottom_toTopOf="@+id/buttonVertical"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/view_config_iv_label_font_small" />-->
+
+    <RelativeLayout
+        android:id="@+id/buttonVertical"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_click"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonHorizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view_config_font_size_seek_bar">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_vertical_scroll" />
+
+            <com.oe.aoepub_viewer.folioreader.util.StyleableTextView
+                android:id="@+id/txtVertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:text="@string/direction_vertical"
+                android:textSize="17sp"
+                app:folio_font="@string/lato_font" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/buttonHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_click"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonVertical"
+        app:layout_constraintTop_toBottomOf="@+id/view_config_font_size_seek_bar">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_horizontal_scroll" />
+
+            <com.oe.aoepub_viewer.folioreader.util.StyleableTextView
+                android:id="@+id/txtHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:text="@string/direction_horizontal"
+                android:textSize="17sp"
+                app:folio_font="@string/lato_font" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <!--    <com.oe.aoepub_viewer.folioreader.util.StyleableTextView-->
+    <!--        -->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="50dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="@string/direction_horizontal"-->
+    <!--        android:textSize="17sp"-->
+    <!--        app:folio_font="@string/lato_font"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toEndOf="@+id/buttonVertical"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/view_config_font_size_seek_bar" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

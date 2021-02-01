@@ -15,7 +15,6 @@ part 'utils/util.dart';
 class AoepubViewer {
   static const MethodChannel _channel = const MethodChannel('aoepub_viewer');
   static const EventChannel _pageChannel = const EventChannel('page');
-  static const EventChannel _debugChannel = const EventChannel('com.oe.debug');
 
   /// Configure Viewer's with available values
   ///
@@ -26,7 +25,7 @@ class AoepubViewer {
   static void setConfig(
       {Color themeColor = Colors.blue,
       String identifier = 'book',
-      bool nightMode = false,
+      int nightMode = 0,
       EpubScrollDirection scrollDirection = EpubScrollDirection.ALLDIRECTIONS,
       bool allowSharing = false,
       bool enableTts = false}) async {
@@ -74,13 +73,5 @@ class AoepubViewer {
         .map((value) => Platform.isAndroid ? value : '{}');
 
     return pageStream;
-  }
-
-  static Stream get debugStream {
-    Stream stream = _debugChannel
-        .receiveBroadcastStream()
-        .map((value) => print("ahihi: " + value));
-
-    return stream;
   }
 }
