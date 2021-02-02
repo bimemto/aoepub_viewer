@@ -78,7 +78,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControllerCallback,
-    View.OnSystemUiVisibilityChangeListener {
+        View.OnSystemUiVisibilityChangeListener {
 
     private var bookFileName: String? = null
 
@@ -147,7 +147,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
                 try {
                     val activityManager =
-                        context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                            context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
                     val tasks = activityManager.runningAppProcesses
                     taskImportance = tasks[0].importance
                 } catch (e: Exception) {
@@ -156,7 +156,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
                 val closeIntent = Intent(applicationContext, FolioActivity::class.java)
                 closeIntent.flags =
-                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
                 closeIntent.action = FolioReader.ACTION_CLOSE_FOLIOREADER
                 this@FolioActivity.startActivity(closeIntent)
             }
@@ -186,7 +186,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
     private val currentFragment: FolioPageFragment?
         get() = if (mFolioPageFragmentAdapter != null && mFolioPageViewPager != null) {
             mFolioPageFragmentAdapter!!
-                .getItem(mFolioPageViewPager!!.currentItem) as FolioPageFragment
+                    .getItem(mFolioPageViewPager!!.currentItem) as FolioPageFragment
         } else {
             null
         }
@@ -260,8 +260,8 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         display.getRealMetrics(displayMetrics)
         density = displayMetrics!!.density
         LocalBroadcastManager.getInstance(this).registerReceiver(
-            closeBroadcastReceiver,
-            IntentFilter(FolioReader.ACTION_CLOSE_FOLIOREADER)
+                closeBroadcastReceiver,
+                IntentFilter(FolioReader.ACTION_CLOSE_FOLIOREADER)
         )
 
         // Fix for screen get turned off while reading
@@ -277,31 +277,31 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         if (savedInstanceState != null) {
             searchAdapterDataBundle = savedInstanceState.getBundle(SearchAdapter.DATA_BUNDLE)
             searchQuery =
-                savedInstanceState.getCharSequence(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
+                    savedInstanceState.getCharSequence(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY)
         }
 
         mBookId = intent.getStringExtra(FolioReader.EXTRA_BOOK_ID)
         mEpubSourceType =
-            intent.extras!!.getSerializable(INTENT_EPUB_SOURCE_TYPE) as EpubSourceType
+                intent.extras!!.getSerializable(INTENT_EPUB_SOURCE_TYPE) as EpubSourceType
         if (mEpubSourceType == EpubSourceType.RAW) {
             mEpubRawId = intent.extras!!.getInt(INTENT_EPUB_SOURCE_PATH)
         } else {
             mEpubFilePath = intent.extras!!
-                .getString(INTENT_EPUB_SOURCE_PATH)
+                    .getString(INTENT_EPUB_SOURCE_PATH)
         }
 
         initActionBar()
         initMediaController()
 
         if (ContextCompat.checkSelfPermission(
-                this@FolioActivity,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
+                        this@FolioActivity,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED
         ) {
             ActivityCompat.requestPermissions(
-                this@FolioActivity,
-                Constants.getWriteExternalStoragePerms(),
-                Constants.WRITE_EXTERNAL_STORAGE_REQUEST
+                    this@FolioActivity,
+                    Constants.getWriteExternalStoragePerms(),
+                    Constants.WRITE_EXTERNAL_STORAGE_REQUEST
             )
         } else {
             setupBook()
@@ -321,7 +321,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         UiUtil.setColorIntToDrawable(config.currentThemeColor, drawable!!)
         toolbar!!.navigationIcon = drawable
 
-        if (config.isNightMode == 4) {
+        if (config.colorMode == 4) {
             setNightMode()
         } else {
             setDayMode()
@@ -329,7 +329,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val color: Int
-            color = if (config.isNightMode == 4) {
+            color = if (config.colorMode == 4) {
                 ContextCompat.getColor(this, R.color.black)
             } else {
                 val attrs = intArrayOf(android.R.attr.navigationBarColor)
@@ -349,7 +349,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         Log.v(LOG_TAG, "-> setDayMode")
 
         actionBar!!.setBackgroundDrawable(
-            ColorDrawable(ContextCompat.getColor(this, R.color.white))
+                ColorDrawable(ContextCompat.getColor(this, R.color.white))
         )
 
         toolbar!!.setTitleTextColor(ContextCompat.getColor(this, R.color.black))
@@ -374,7 +374,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         Log.v(LOG_TAG, "-> setNightMode")
 
         actionBar!!.setBackgroundDrawable(
-            ColorDrawable(ContextCompat.getColor(this, R.color.black))
+                ColorDrawable(ContextCompat.getColor(this, R.color.black))
         )
 
         toolbar!!.setTitleTextColor(ContextCompat.getColor(this, R.color.night_title_text_color))
@@ -439,46 +439,44 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
             Log.v(LOG_TAG, "-> onOptionsItemSelected -> drawer")
             startContentHighlightActivity()
             return true
-        }
-        else if(itemId == R.id.itemBookmark){
+        } else if (itemId == R.id.itemBookmark) {
             val readLocator = currentFragment!!.getLastReadLocator()
             Log.v(LOG_TAG, "-> onOptionsItemSelected 'if' -> bookmark")
 
-                bookmarkReadLocator = readLocator;
-                val localBroadcastManager = LocalBroadcastManager.getInstance(this)
-                val intent = Intent(FolioReader.ACTION_SAVE_READ_LOCATOR)
-                intent.putExtra(FolioReader.EXTRA_READ_LOCATOR, readLocator as Parcelable?)
-                localBroadcastManager.sendBroadcast(intent)
-                val dialog = Dialog(this, R.style.DialogCustomTheme)
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                dialog.setContentView(R.layout.dialog_bookmark)
-                dialog.show()
-                dialog.setCanceledOnTouchOutside(true)
-                dialog.setOnCancelListener{
+            bookmarkReadLocator = readLocator;
+            val localBroadcastManager = LocalBroadcastManager.getInstance(this)
+            val intent = Intent(FolioReader.ACTION_SAVE_READ_LOCATOR)
+            intent.putExtra(FolioReader.EXTRA_READ_LOCATOR, readLocator as Parcelable?)
+            localBroadcastManager.sendBroadcast(intent)
+            val dialog = Dialog(this, R.style.DialogCustomTheme)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.dialog_bookmark)
+            dialog.show()
+            dialog.setCanceledOnTouchOutside(true)
+            dialog.setOnCancelListener {
+                Toast.makeText(this,
+                        "please enter a Bookmark name and then press Save",
+                        Toast.LENGTH_SHORT).show()
+            }
+            dialog.findViewById<View>(R.id.btn_save_bookmark).setOnClickListener {
+                val name = (dialog.findViewById<View>(R.id.bookmark_name) as EditText).text.toString()
+                if (!TextUtils.isEmpty(name)) {
+                    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
+                    val id = BookmarkTable(this).insertBookmark(mBookId, simpleDateFormat.format(Date()), name, bookmarkReadLocator!!.toJson().toString());
                     Toast.makeText(this,
-                            "please enter a Bookmark name and then press Save",
+                            getString(R.string.book_mark_success),
+                            Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this,
+                            "please Enter a Bookmark name and then press Save",
                             Toast.LENGTH_SHORT).show()
                 }
-                dialog.findViewById<View>(R.id.btn_save_bookmark).setOnClickListener {
-                    val name = (dialog.findViewById<View>(R.id.bookmark_name) as EditText).text.toString()
-                    if (!TextUtils.isEmpty(name)) {
-                        val simpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
-                        val id =  BookmarkTable(this).insertBookmark(mBookId, simpleDateFormat.format(Date()), name, bookmarkReadLocator!!.toJson().toString());
-                        Toast.makeText(this,
-                                getString(R.string.book_mark_success),
-                                Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(this,
-                                "please Enter a Bookmark name and then press Save",
-                                Toast.LENGTH_SHORT).show()
-                    }
-                    dialog.dismiss()
-                }
+                dialog.dismiss()
+            }
 
 
             return true
-        }
-        else if (itemId == R.id.itemSearch) {
+        } else if (itemId == R.id.itemSearch) {
             Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.title)
             if (searchUri == null)
                 return true
@@ -528,8 +526,8 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
     fun showConfigBottomSheetDialogFragment() {
         ConfigBottomSheetDialogFragment().show(
-            supportFragmentManager,
-            ConfigBottomSheetDialogFragment.LOG_TAG
+                supportFragmentManager,
+                ConfigBottomSheetDialogFragment.LOG_TAG
         )
     }
 
@@ -555,8 +553,8 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
         bookFileName = FileUtil.getEpubFilename(this, mEpubSourceType!!, mEpubFilePath, mEpubRawId)
         val path = FileUtil.saveEpubFileAndLoadLazyBook(
-            this, mEpubSourceType, mEpubFilePath,
-            mEpubRawId, bookFileName
+                this, mEpubSourceType, mEpubFilePath,
+                mEpubRawId, bookFileName
         )
         val extension: Publication.EXTENSION
         var extensionString: String? = null
@@ -582,13 +580,13 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         }
 
         portNumber =
-            intent.getIntExtra(FolioReader.EXTRA_PORT_NUMBER, Constants.DEFAULT_PORT_NUMBER)
+                intent.getIntExtra(FolioReader.EXTRA_PORT_NUMBER, Constants.DEFAULT_PORT_NUMBER)
         portNumber = AppUtil.getAvailablePortNumber(portNumber)
 
         r2StreamerServer = Server(portNumber)
         r2StreamerServer!!.addEpub(
-            pubBox!!.publication, pubBox!!.container,
-            "/" + bookFileName!!, null
+                pubBox!!.publication, pubBox!!.container,
+                "/" + bookFileName!!, null
         )
 
         r2StreamerServer!!.start()
@@ -636,7 +634,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
         if (streamerUri == null) {
             streamerUri =
-                Uri.parse(String.format(STREAMER_URL_TEMPLATE, LOCALHOST, portNumber, bookFileName))
+                    Uri.parse(String.format(STREAMER_URL_TEMPLATE, LOCALHOST, portNumber, bookFileName))
         }
         return streamerUri.toString()
     }
@@ -652,8 +650,8 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
         mFolioPageViewPager!!.setDirection(newDirection)
         mFolioPageFragmentAdapter = FolioPageFragmentAdapter(
-            supportFragmentManager,
-            spine, bookFileName, mBookId
+                supportFragmentManager,
+                spine, bookFileName, mBookId
         )
         mFolioPageViewPager!!.adapter = mFolioPageFragmentAdapter
         mFolioPageViewPager!!.currentItem = currentChapterIndex
@@ -674,7 +672,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         showSystemUI()
 
         distractionFreeMode =
-            savedInstanceState != null && savedInstanceState.getBoolean(BUNDLE_DISTRACTION_FREE_MODE)
+                savedInstanceState != null && savedInstanceState.getBoolean(BUNDLE_DISTRACTION_FREE_MODE)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -845,8 +843,8 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
                     or View.SYSTEM_UI_FLAG_FULLSCREEN)
         } else {
             window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN or WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
             )
             // Specified 1 just to mock anything other than View.SYSTEM_UI_FLAG_VISIBLE
             onSystemUiVisibilityChange(1)
@@ -909,7 +907,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
             }
 
         } else if (requestCode == RequestCode.CONTENT_HIGHLIGHT.value && resultCode == Activity.RESULT_OK &&
-            data!!.hasExtra(TYPE)
+                data!!.hasExtra(TYPE)
         ) {
 
             val type = data.getStringExtra(TYPE)
@@ -923,8 +921,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
                 mFolioPageViewPager!!.currentItem = currentChapterIndex
                 val folioPageFragment = currentFragment ?: return
                 folioPageFragment.scrollToHighlightId(highlightImpl.rangy)
-            }
-            else if(type == BOOKMARK_SELECTED){
+            } else if (type == BOOKMARK_SELECTED) {
                 val bookmark = data.getSerializableExtra(BOOKMARK_ITEM) as HashMap<String, String>
                 bookmarkReadLocator = ReadLocator.fromJson(bookmark.get("readlocator").toString())
                 currentChapterIndex = getChapterIndex(bookmarkReadLocator)
@@ -967,11 +964,11 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         mFolioPageViewPager = findViewById(R.id.folioPageViewPager)
         // Replacing with addOnPageChangeListener(), onPageSelected() is not invoked
         mFolioPageViewPager!!.setOnPageChangeListener(object :
-            DirectionalViewpager.OnPageChangeListener {
+                DirectionalViewpager.OnPageChangeListener {
             override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
             ) {
             }
 
@@ -979,9 +976,9 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
                 Log.v(LOG_TAG, "-> onPageSelected -> DirectionalViewpager -> position = $position")
 
                 EventBus.getDefault().post(
-                    MediaOverlayPlayPauseEvent(
-                        spine!![currentChapterIndex].href, false, true
-                    )
+                        MediaOverlayPlayPauseEvent(
+                                spine!![currentChapterIndex].href, false, true
+                        )
                 )
                 mediaControllerFragment!!.setPlayButtonDrawable()
                 currentChapterIndex = position
@@ -992,12 +989,12 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
                 if (state == DirectionalViewpager.SCROLL_STATE_IDLE) {
                     val position = mFolioPageViewPager!!.currentItem
                     Log.v(
-                        LOG_TAG, "-> onPageScrollStateChanged -> DirectionalViewpager -> " +
-                                "position = " + position
+                            LOG_TAG, "-> onPageScrollStateChanged -> DirectionalViewpager -> " +
+                            "position = " + position
                     )
 
                     var folioPageFragment =
-                        mFolioPageFragmentAdapter!!.getItem(position - 1) as FolioPageFragment?
+                            mFolioPageFragmentAdapter!!.getItem(position - 1) as FolioPageFragment?
                     if (folioPageFragment != null) {
                         folioPageFragment.scrollToLast()
                         if (folioPageFragment.mWebview != null)
@@ -1005,7 +1002,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
                     }
 
                     folioPageFragment =
-                        mFolioPageFragmentAdapter!!.getItem(position + 1) as FolioPageFragment?
+                            mFolioPageFragmentAdapter!!.getItem(position + 1) as FolioPageFragment?
                     if (folioPageFragment != null) {
                         folioPageFragment.scrollToFirst()
                         if (folioPageFragment.mWebview != null)
@@ -1017,8 +1014,8 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
         mFolioPageViewPager!!.setDirection(direction)
         mFolioPageFragmentAdapter = FolioPageFragmentAdapter(
-            supportFragmentManager,
-            spine, bookFileName, mBookId
+                supportFragmentManager,
+                spine, bookFileName, mBookId
         )
         mFolioPageViewPager!!.adapter = mFolioPageFragmentAdapter
 
@@ -1047,8 +1044,8 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         }
 
         LocalBroadcastManager.getInstance(this).registerReceiver(
-            searchReceiver,
-            IntentFilter(ACTION_SEARCH_CLEAR)
+                searchReceiver,
+                IntentFilter(ACTION_SEARCH_CLEAR)
         )
     }
 
@@ -1103,62 +1100,59 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         val overrideConfig = intent.getBooleanExtra(Config.EXTRA_OVERRIDE_CONFIG, false)
         val savedConfig = AppUtil.getSavedConfig(this)
 
-        if (savedInstanceState != null) {
-            config = savedConfig
-
+        config = if (savedInstanceState != null) {
+            Log.d("FACK", "config 1")
+            savedConfig
         } else if (savedConfig == null) {
-            if (intentConfig == null) {
-                config = Config()
-            } else {
-                config = intentConfig
-            }
-
+            Log.d("FACK", "config 2")
+            intentConfig ?: Config()
         } else {
             if (intentConfig != null && overrideConfig) {
-                config = intentConfig
+                Log.d("FACK", "config 3")
+                intentConfig
             } else {
-                config = savedConfig
+                Log.d("FACK", "config 4")
+                savedConfig
             }
         }
-
+        Log.d("FACK", config.toString())
         // Code would never enter this if, just added for any unexpected error
         // and to avoid lint warning
         if (config == null)
             config = Config()
-
         AppUtil.saveConfig(this, config)
         direction = config.direction
     }
 
     override fun play() {
         EventBus.getDefault().post(
-            MediaOverlayPlayPauseEvent(
-                spine!![currentChapterIndex].href, true, false
-            )
+                MediaOverlayPlayPauseEvent(
+                        spine!![currentChapterIndex].href, true, false
+                )
         )
     }
 
     override fun pause() {
         EventBus.getDefault().post(
-            MediaOverlayPlayPauseEvent(
-                spine!![currentChapterIndex].href, false, false
-            )
+                MediaOverlayPlayPauseEvent(
+                        spine!![currentChapterIndex].href, false, false
+                )
         )
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<String>,
+            grantResults: IntArray
     ) {
         when (requestCode) {
             Constants.WRITE_EXTERNAL_STORAGE_REQUEST -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 setupBook()
             } else {
                 Toast.makeText(
-                    this,
-                    getString(R.string.cannot_access_epub_message),
-                    Toast.LENGTH_LONG
+                        this,
+                        getString(R.string.cannot_access_epub_message),
+                        Toast.LENGTH_LONG
                 ).show()
                 finish()
             }

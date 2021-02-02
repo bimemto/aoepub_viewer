@@ -187,7 +187,7 @@ class MediaControllerFragment : BottomSheetDialogFragment() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
             playbackSpeedLayout?.visibility = View.GONE
 
-        if (config.isNightMode == 4) setNightMode()
+        if (config.colorMode == 4) setNightMode()
 
         initColors()
         initListeners()

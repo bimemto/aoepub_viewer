@@ -42,7 +42,7 @@ public class ContentHighlightActivity extends AppCompatActivity {
         publication = (Publication) getIntent().getSerializableExtra(Constants.PUBLICATION);
 
         mConfig = AppUtil.getSavedConfig(this);
-        mIsNightMode = mConfig != null && mConfig.isNightMode() == 4;
+        mIsNightMode = mConfig != null && mConfig.getColorMode() == 4;
         initViews();
     }
 

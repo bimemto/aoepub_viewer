@@ -112,7 +112,7 @@ public class HighlightAdapter extends RecyclerView.Adapter<HighlightAdapter.High
                 });
             }
         }, 30);
-        if (config.isNightMode() == 4) {
+        if (config.getColorMode() == 4) {
             holder.container.setBackgroundColor(ContextCompat.getColor(context,
                     R.color.black));
             holder.note.setTextColor(ContextCompat.getColor(context,

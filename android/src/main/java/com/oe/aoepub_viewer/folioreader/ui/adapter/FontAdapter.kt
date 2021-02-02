@@ -27,7 +27,7 @@ class FontAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = createTextView(position)
 
-        if (config.isNightMode == 4) {
+        if (config.colorMode == 4) {
             view.setTextColor(ContextCompat.getColor(context, R.color.night_default_font_color))
         } else {
             view.setTextColor(ContextCompat.getColor(context, R.color.day_default_font_color))
@@ -39,7 +39,7 @@ class FontAdapter(
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = createTextView(position)
 
-        if (config.isNightMode == 4) {
+        if (config.colorMode == 4) {
             view.setBackgroundResource(R.color.night_background_color)
             view.setTextColor(ContextCompat.getColor(context, R.color.night_default_font_color))
         } else {

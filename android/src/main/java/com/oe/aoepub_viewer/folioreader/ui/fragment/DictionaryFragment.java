@@ -155,7 +155,7 @@ public class DictionaryFragment extends DialogFragment
         UiUtil.setColorIntToDrawable(themeColor, progressBar.getIndeterminateDrawable());
         UiUtil.setShapeColor(googleSearch, themeColor);
 
-        if (config.isNightMode() == 4) {
+        if (config.getColorMode() == 4) {
             view.findViewById(R.id.toolbar).setBackgroundColor(Color.BLACK);
             view.findViewById(R.id.contentView).setBackgroundColor(Color.BLACK);
             dictionary.setBackgroundDrawable(UiUtil.createStateDrawable(themeColor, Color.BLACK));

@@ -289,7 +289,7 @@ class FolioWebView : WebView {
         handleHeight = textSelectionMiddleDrawable?.intrinsicHeight ?: (24 * density).toInt()
 
         val config = AppUtil.getSavedConfig(context)!!
-        val ctw = if (config.isNightMode == 4) {
+        val ctw = if (config.colorMode == 4) {
             ContextThemeWrapper(context, R.style.FolioNightTheme)
         } else {
             ContextThemeWrapper(context, R.style.FolioDayTheme)

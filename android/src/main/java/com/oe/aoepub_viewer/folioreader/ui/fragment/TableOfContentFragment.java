@@ -64,7 +64,7 @@ public class TableOfContentFragment extends Fragment implements TOCAdapter.TOCCa
         View mRootView = inflater.inflate(R.layout.fragment_contents, container, false);
         mConfig = AppUtil.getSavedConfig(getActivity());
         mBookTitle = getArguments().getString(BOOK_TITLE);
-        if (mConfig.isNightMode() == 4) {
+        if (mConfig.getColorMode() == 4) {
             mRootView.findViewById(R.id.recycler_view_menu).
                     setBackgroundColor(ContextCompat.getColor(getActivity(),
                             R.color.black));

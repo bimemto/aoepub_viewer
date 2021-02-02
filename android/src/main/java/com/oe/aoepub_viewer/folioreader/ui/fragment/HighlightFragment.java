@@ -68,7 +68,7 @@ public class HighlightFragment extends Fragment implements HighlightAdapter.High
         Config config = AppUtil.getSavedConfig(getActivity());
         mBookId = getArguments().getString(FolioReader.EXTRA_BOOK_ID);
 
-        if (config.isNightMode() == 4) {
+        if (config.getColorMode() == 4) {
             mRootView.findViewById(R.id.rv_highlights).
                     setBackgroundColor(ContextCompat.getColor(getActivity(),
                             R.color.black));

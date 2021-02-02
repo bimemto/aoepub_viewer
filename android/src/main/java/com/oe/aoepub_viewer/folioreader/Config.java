@@ -227,18 +227,18 @@ public class Config implements Parcelable {
         return this;
     }
 
-    public int isNightMode() {
+    public int getColorMode() {
         return nightMode;
     }
 
-    public Config setNightMode(int nightMode) {
+    public Config setColorMode(int nightMode) {
         this.nightMode = nightMode;
         return this;
     }
 
     @ColorInt
     public int getCurrentThemeColor() {
-        return isNightMode() == 4 ? getNightThemeColor() : getThemeColor();
+        return getColorMode() == 4 ? getNightThemeColor() : getThemeColor();
     }
 
     @ColorInt
@@ -397,7 +397,7 @@ public class Config implements Parcelable {
         return "Config{" +
                 "font=" + font +
                 ", fontSize=" + fontSize +
-                ", nightMode=" + nightMode +
+                ", colorMode=" + nightMode +
                 ", themeColor=" + themeColor +
                 ", nightThemeColor=" + nightThemeColor +
                 ", showTts=" + showTts +

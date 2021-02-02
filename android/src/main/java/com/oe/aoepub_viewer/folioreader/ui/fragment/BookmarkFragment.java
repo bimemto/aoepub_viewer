@@ -2,7 +2,6 @@ package com.oe.aoepub_viewer.folioreader.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +22,7 @@ import com.oe.aoepub_viewer.folioreader.FolioReader;
 import com.oe.aoepub_viewer.folioreader.model.sqlite.BookmarkTable;
 import com.oe.aoepub_viewer.folioreader.ui.adapter.BookmarkAdapter;
 
-import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Map;
 
 public class BookmarkFragment extends Fragment implements BookmarkAdapter.BookmarkAdapterCallback {
     private static final String BOOKMARK_ITEM = "bookmark_item";
@@ -78,7 +75,7 @@ public class BookmarkFragment extends Fragment implements BookmarkAdapter.Bookma
         mBookId = getArguments().getString(FolioReader.EXTRA_BOOK_ID);
         Log.i("Bookmark fragment", "onViewCreated: mbookID " + mBookId);
 
-        if (config.isNightMode() == 4) {
+        if (config.getColorMode() == 4) {
             mRootView.findViewById(R.id.rv_bookmarks).
                     setBackgroundColor(ContextCompat.getColor(getActivity(),
                             R.color.black));

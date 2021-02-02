@@ -57,7 +57,7 @@ public class Reader implements OnHighlightListener, ReadLocatorListener, FolioRe
                         ReadLocator readLocator = ReadLocator.fromJson(location);
                         folioReader.setReadLocator(readLocator);
                     }
-                    folioReader.setConfig(readerConfig.config, true)
+                    folioReader.setConfig(readerConfig.config, false)
                             .openBook(path);
                 } catch (Exception e) {
                     e.printStackTrace();

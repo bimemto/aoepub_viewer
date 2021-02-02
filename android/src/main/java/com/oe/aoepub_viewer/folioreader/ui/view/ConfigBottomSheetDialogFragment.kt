@@ -3,30 +3,34 @@ package com.oe.aoepub_viewer.folioreader.ui.view
 import android.animation.Animator
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
-import android.graphics.PorterDuff
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.oe.aoepub_viewer.folioreader.Config
-import com.oe.aoepub_viewer.R
-import com.oe.aoepub_viewer.folioreader.model.event.ReloadDataEvent
-import com.oe.aoepub_viewer.folioreader.ui.activity.FolioActivity
-import com.oe.aoepub_viewer.folioreader.ui.activity.FolioActivityCallback
-import com.oe.aoepub_viewer.folioreader.ui.adapter.FontAdapter
-import com.oe.aoepub_viewer.folioreader.ui.fragment.MediaControllerFragment
-import com.oe.aoepub_viewer.folioreader.util.AppUtil
-import com.oe.aoepub_viewer.folioreader.util.UiUtil
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.oe.aoepub_viewer.R
+import com.oe.aoepub_viewer.folioreader.Config
+import com.oe.aoepub_viewer.folioreader.model.event.ReloadDataEvent
+import com.oe.aoepub_viewer.folioreader.ui.activity.FolioActivity
+import com.oe.aoepub_viewer.folioreader.ui.activity.FolioActivityCallback
+import com.oe.aoepub_viewer.folioreader.ui.adapter.FontMenuAdapter
+import com.oe.aoepub_viewer.folioreader.ui.adapter.FontMenuItem
+import com.oe.aoepub_viewer.folioreader.ui.fragment.MediaControllerFragment
+import com.oe.aoepub_viewer.folioreader.util.AppUtil
+import com.oe.aoepub_viewer.folioreader.util.UiUtil
+import com.skydoves.powermenu.CustomPowerMenu
+import com.skydoves.powermenu.MenuAnimation
+import com.skydoves.powermenu.MenuBaseAdapter
+import com.skydoves.powermenu.OnMenuItemClickListener
 import kotlinx.android.synthetic.main.view_config.*
 import org.greenrobot.eventbus.EventBus
+
 
 /**
  * Created by mobisys2 on 11/16/2016.
@@ -41,8 +45,9 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
     }
 
     private lateinit var config: Config
-    private var isNightMode = 0
+    private var colorMode = 0
     private lateinit var activityCallback: FolioActivityCallback
+    private lateinit var customPowerMenu: CustomPowerMenu<*, *>
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -82,70 +87,46 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
         view_config_font_size_seek_bar.progress = config.fontSize
         configSeekBar()
         selectFont(config.font, false)
-        isNightMode = config.isNightMode
-        when (isNightMode) {
+        colorMode = config.colorMode
+        when (colorMode) {
             4 -> {
                 container.setBackgroundColor(ContextCompat.getColor(context!!, R.color.night))
             }
-            3 -> {
-                container.setBackgroundColor(ContextCompat.getColor(context!!, R.color.pink))
-            }
-            2 -> {
-                container.setBackgroundColor(ContextCompat.getColor(context!!, R.color.gray))
-            }
-            1 -> {
-                container.setBackgroundColor(ContextCompat.getColor(context!!, R.color.purple))
-            }
+//            3 -> {
+//                container.setBackgroundColor(ContextCompat.getColor(context!!, R.color.pink))
+//            }
+//            2 -> {
+//                container.setBackgroundColor(ContextCompat.getColor(context!!, R.color.gray))
+//            }
+//            1 -> {
+//                container.setBackgroundColor(ContextCompat.getColor(context!!, R.color.purple))
+//            }
             else -> {
                 container.setBackgroundColor(ContextCompat.getColor(context!!, R.color.white))
             }
         }
 
-        when (isNightMode) {
+        when (colorMode) {
             4 -> {
                 btnBlack.isChecked = true
-                UiUtil.setColorIntToDrawable(
-                        config.currentThemeColor,
-                        btnFont.drawable
-                )
-                //UiUtil.setColorResToDrawable(R.color.app_gray, view_config_ib_day_mode.drawable)
             }
             3 -> {
                 btnPink.isChecked = true
-                UiUtil.setColorIntToDrawable(
-                        config.currentThemeColor,
-                        btnFont.drawable
-                )
             }
             2 -> {
                 btnGray.isChecked = true
-                UiUtil.setColorIntToDrawable(
-                        config.currentThemeColor,
-                        btnFont.drawable
-                )
             }
             1 -> {
                 btnPurple.isChecked = true
-                UiUtil.setColorIntToDrawable(
-                        config.currentThemeColor,
-                        btnFont.drawable
-                )
             }
             else -> {
                 btnWhite.isChecked = true
-                UiUtil.setColorIntToDrawable(
-                        config.currentThemeColor,
-                        btnFont.drawable
-                )
-//            view_config_ib_day_mode.isSelected = true
-//            view_config_ib_night_mode.isSelected = false
-//            UiUtil.setColorIntToDrawable(
-//                    config.currentThemeColor,
-//                    view_config_ib_day_mode!!.drawable
-//            )
-//            UiUtil.setColorResToDrawable(R.color.app_gray, view_config_ib_night_mode.drawable)
             }
         }
+        UiUtil.setColorIntToDrawable(
+                config.currentThemeColor,
+                btnFont.drawable
+        )
     }
 
     private fun inflateView() {
@@ -204,6 +185,20 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
             )
             UiUtil.setColorResToDrawable(R.color.app_gray, iv_vertical.drawable)
         }
+
+        btnFont.setOnClickListener {
+            customPowerMenu.showAsAnchorCenter(btnFont)
+//            val location = IntArray(2)
+//            btnFont.getLocationOnScreen(location)
+//            val x = location[0]
+//            val y = location[1]
+//            customPowerMenu.showAtLocation(btnFont, x - 50, y + 150)
+        }
+    }
+
+    private val onIconMenuItemClickListener: OnMenuItemClickListener<FontMenuItem> = OnMenuItemClickListener<FontMenuItem> { position, item ->
+        selectFont(item!!.font, true)
+        customPowerMenu.dismiss()
     }
 
     private fun configFonts() {
@@ -215,9 +210,17 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
 
         txtVertical.setTextColor(colorStateList)
         txtHorizontal.setTextColor(colorStateList)
-
-        val adapter = FontAdapter(config, context!!)
-
+        //val adapter = FontAdapter(config, context!!)
+        customPowerMenu = CustomPowerMenu.Builder<FontMenuItem, MenuBaseAdapter<FontMenuItem>>(context!!, FontMenuAdapter())
+                .addItem(FontMenuItem("Bookerly", "fonts/andada/Andada-Regular.otf"))
+                .addItem(FontMenuItem("Georgia", "fonts/lato/Lato-Regular.ttf"))
+                .addItem(FontMenuItem("Baskerville", "fonts/lora/Lora-Regular.ttf"))
+                .addItem(FontMenuItem("Raleway", "fonts/raleway/Raleway-Regular.ttf"))
+                .setOnMenuItemClickListener(onIconMenuItemClickListener)
+                .setAnimation(MenuAnimation.SHOWUP_BOTTOM_RIGHT)
+                .setMenuRadius(10f)
+                .setMenuShadow(10f)
+                .build()
 //        view_config_font_spinner.adapter = adapter
 //
 //        view_config_font_spinner.background.setColorFilter(
@@ -273,7 +276,7 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
             }
         }
         val fromThemeColor: Int
-        fromThemeColor = when (isNightMode) {
+        fromThemeColor = when (this.colorMode) {
             4 -> {
                 night
             }
@@ -300,8 +303,8 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
             override fun onAnimationStart(animator: Animator) {}
 
             override fun onAnimationEnd(animator: Animator) {
-                isNightMode = toThemeColor //!isNightMode
-                config.isNightMode = isNightMode
+                this@ConfigBottomSheetDialogFragment.colorMode = toThemeColor //!isNightMode
+                config.colorMode = this@ConfigBottomSheetDialogFragment.colorMode
                 AppUtil.saveConfig(activity, config)
                 EventBus.getDefault().post(ReloadDataEvent())
             }
@@ -325,8 +328,8 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
 
             val navigationColorAnim = ValueAnimator.ofObject(
                     ArgbEvaluator(),
-                    if (isNightMode == 4) black else defaultNavigationBarColor,
-                    if (isNightMode == 4) defaultNavigationBarColor else black
+                    if (this.colorMode == 4) black else defaultNavigationBarColor,
+                    if (this.colorMode == 4) defaultNavigationBarColor else black
             )
 
             navigationColorAnim.addUpdateListener { valueAnimator ->
@@ -365,7 +368,7 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
     }
 
     private fun setToolBarColor() {
-        if (isNightMode != 4) {
+        if (colorMode != 4) {
             activityCallback.setDayMode()
         } else {
             activityCallback.setNightMode()
@@ -378,7 +381,7 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
                 fragmentManager?.findFragmentByTag(MediaControllerFragment.LOG_TAG)
                         ?: return
         mediaControllerFragment = mediaControllerFragment as MediaControllerFragment
-        if (isNightMode == 4) {
+        if (colorMode == 4) {
             mediaControllerFragment.setDayMode()
         } else {
             mediaControllerFragment.setNightMode()
@@ -389,7 +392,10 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
         if (value) {
             when (radio?.id) {
                 R.id.btnWhite -> {
-                    isNightMode = 0
+                    if (colorMode == 0) {
+                        return
+                    }
+                    colorMode = 0
                     changeTheme(0)
                     btnPurple.isChecked = false
                     btnGray.isChecked = false
@@ -397,7 +403,10 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
                     btnBlack.isChecked = false
                 }
                 R.id.btnPurple -> {
-                    isNightMode = 1
+                    if (colorMode == 1) {
+                        return
+                    }
+                    colorMode = 1
                     changeTheme(1)
                     btnWhite.isChecked = false
                     btnGray.isChecked = false
@@ -405,7 +414,10 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
                     btnBlack.isChecked = false
                 }
                 R.id.btnGray -> {
-                    isNightMode = 2
+                    if (colorMode == 2) {
+                        return
+                    }
+                    colorMode = 2
                     changeTheme(2)
                     btnPurple.isChecked = false
                     btnWhite.isChecked = false
@@ -413,7 +425,10 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
                     btnBlack.isChecked = false
                 }
                 R.id.btnPink -> {
-                    isNightMode = 3
+                    if (colorMode == 3) {
+                        return
+                    }
+                    colorMode = 3
                     changeTheme(3)
                     btnPurple.isChecked = false
                     btnGray.isChecked = false
@@ -421,7 +436,10 @@ class ConfigBottomSheetDialogFragment : BottomSheetDialogFragment(), CompoundBut
                     btnBlack.isChecked = false
                 }
                 R.id.btnBlack -> {
-                    isNightMode = 4
+                    if (colorMode == 4) {
+                        return
+                    }
+                    colorMode = 4
                     changeTheme(4)
                     btnPurple.isChecked = false
                     btnGray.isChecked = false

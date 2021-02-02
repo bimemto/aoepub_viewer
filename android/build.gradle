@@ -82,8 +82,6 @@ dependencies {
 
     // Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
-//    api('com.github.readium:r2-shared-kotlin:1.1.6') {
-//        exclude group: "org.readium.r2.shared.parser", module: "jetified-r2-shared-kotlin"
-//    }
+    implementation "com.github.skydoves:powermenu:2.1.9"
 }
 

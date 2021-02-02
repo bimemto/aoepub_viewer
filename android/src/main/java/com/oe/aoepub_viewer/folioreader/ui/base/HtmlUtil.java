@@ -66,15 +66,15 @@ public final class HtmlUtil {
         // Inject CSS & user font style
         String toInject = "\n" + cssPath + "\n" + jsPath + "\n";
 
-        File userFontFile = FontFinder.getFontFile(fontName);
+        String userFontFile = FontFinder.getFontAssetsDir(fontName); //FontFinder.getFontFile(fontName);
         if (userFontFile != null) {
             System.out.println("Injected user font into CSS");
-            System.out.println("  - path: " + userFontFile.getAbsolutePath());
+            System.out.println("  - path: " + userFontFile);
             System.out.println("  - family: '" + fontName + "'");
             toInject += "<style>\n";
             toInject += "@font-face {\n";
             toInject += "  font-family: '" + fontName + "';\n";
-            toInject += "  src: url('file://" + userFontFile.getAbsolutePath() + "');\n";
+            toInject += "  src: url('file://" + userFontFile + "');\n";
             toInject += "}\n";
             toInject += ".custom-font {\n";
             toInject += "  font-family: '" + fontName + "', sans-serif;\n";
@@ -88,13 +88,13 @@ public final class HtmlUtil {
 
         String classes = "custom-font";
 
-        if (config.isNightMode() == 4) {
+        if (config.getColorMode() == 4) {
             classes += " nightMode";
-        } else if (config.isNightMode() == 3) {
+        } else if (config.getColorMode() == 3) {
             classes += " pinkMode";
-        } else if (config.isNightMode() == 2) {
+        } else if (config.getColorMode() == 2) {
             classes += " grayMode";
-        } else if (config.isNightMode() == 1) {
+        } else if (config.getColorMode() == 1) {
             classes += " purpleMode";
         }
 

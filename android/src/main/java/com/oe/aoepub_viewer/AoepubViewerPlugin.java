@@ -3,6 +3,8 @@ package com.oe.aoepub_viewer;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import java.util.Map;
 
 import io.flutter.plugin.common.BinaryMessenger;
@@ -33,32 +35,39 @@ public class AoepubViewerPlugin implements MethodChannel.MethodCallHandler {
     }
 
     @Override
-    public void onMethodCall(MethodCall call, MethodChannel.Result result) {
+    public void onMethodCall(MethodCall call, @NonNull MethodChannel.Result result) {
 
-        if (call.method.equals("setConfig")) {
-            Map<String, Object> arguments = (Map<String, Object>) call.arguments;
-            String identifier = arguments.get("identifier").toString();
-            String themeColor = arguments.get("themeColor").toString();
-            String scrollDirection = arguments.get("scrollDirection").toString();
-            int nightMode = Integer.parseInt(arguments.get("nightMode").toString());
-            boolean allowSharing = Boolean.parseBoolean(arguments.get("allowSharing").toString());
-            boolean enableTts = Boolean.parseBoolean(arguments.get("enableTts").toString());
-            config = new ReaderConfig(context, identifier, themeColor,
-                    scrollDirection, allowSharing, enableTts, nightMode);
+        switch (call.method) {
+            case "setConfig": {
+                Map<String, Object> arguments = (Map<String, Object>) call.arguments;
+                String identifier = arguments.get("identifier").toString();
+                String themeColor = arguments.get("themeColor").toString();
+                String scrollDirection = arguments.get("scrollDirection").toString();
+                int nightMode = Integer.parseInt(arguments.get("nightMode").toString());
+                boolean allowSharing = Boolean.parseBoolean(arguments.get("allowSharing").toString());
+                boolean enableTts = Boolean.parseBoolean(arguments.get("enableTts").toString());
+                config = new ReaderConfig(context, identifier, themeColor,
+                        scrollDirection, allowSharing, enableTts, nightMode);
 
-        } else if (call.method.equals("open")) {
+                break;
+            }
+            case "open": {
 
-            Map<String, Object> arguments = (Map<String, Object>) call.arguments;
-            String bookPath = arguments.get("bookPath").toString();
-            String lastLocation = arguments.get("lastLocation").toString();
+                Map<String, Object> arguments = (Map<String, Object>) call.arguments;
+                String bookPath = arguments.get("bookPath").toString();
+                String lastLocation = arguments.get("lastLocation").toString();
 
-            reader = new Reader(context, messenger, config);
-            reader.open(bookPath, lastLocation);
+                reader = new Reader(context, messenger, config);
+                reader.open(bookPath, lastLocation);
 
-        } else if (call.method.equals("close")) {
-            reader.close();
-        } else {
-            result.notImplemented();
+                break;
+            }
+            case "close":
+                reader.close();
+                break;
+            default:
+                result.notImplemented();
+                break;
         }
     }
 }

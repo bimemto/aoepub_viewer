@@ -99,7 +99,7 @@ class SearchActivity : AppCompatActivity(), OnItemClickListener {
         Log.v(LOG_TAG, "-> onCreate")
 
         val config: Config = AppUtil.getSavedConfig(this)!!
-        if (config.isNightMode == 4) {
+        if (config.colorMode == 4) {
             setTheme(R.style.FolioNightTheme)
         } else {
             setTheme(R.style.FolioDayTheme)

@@ -40,7 +40,7 @@ object FontFinder {
         val fonts = HashMap<String, File>()
 
         val fontDirs = arrayOf(
-            File(Environment.getExternalStorageDirectory(), "Fonts/")
+                File(Environment.getExternalStorageDirectory(), "Fonts/")
         )
         val fontSuffix = ".ttf"
 
@@ -48,13 +48,13 @@ object FontFinder {
             // Collect user fonts
             if (fontDir.exists() && fontDir.isDirectory) {
                 fontDir.walkTopDown()
-                    .filter { f -> f.name.endsWith(fontSuffix) }
-                    .forEach { fontFile ->
-                        val fontName = fontFile.name
-                        val key =
-                            fontName.subSequence(0, fontName.lastIndexOf(fontSuffix)).toString()
-                        fonts[key] = fontFile
-                    }
+                        .filter { f -> f.name.endsWith(fontSuffix) }
+                        .forEach { fontFile ->
+                            val fontName = fontFile.name
+                            val key =
+                                    fontName.subSequence(0, fontName.lastIndexOf(fontSuffix)).toString()
+                            fonts[key] = fontFile
+                        }
             }
         }
         return fonts
@@ -70,6 +70,11 @@ object FontFinder {
             user.containsKey(key) -> user[key]
             else -> null
         }
+    }
+
+    @JvmStatic
+    fun getFontAssetsDir(font: String): String {
+        return "/android_asset/$font"
     }
 
     @JvmStatic

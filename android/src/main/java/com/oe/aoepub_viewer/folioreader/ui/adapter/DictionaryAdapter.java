@@ -158,7 +158,7 @@ public class DictionaryAdapter extends RecyclerView.Adapter<DictionaryAdapter.Di
             example = (TextView) itemView.findViewById(R.id.tv_examples);
             View rootView = itemView.findViewById(R.id.rootView);
 
-            if (config.isNightMode() == 4) {
+            if (config.getColorMode() == 4) {
                 rootView.setBackgroundColor(Color.BLACK);
                 int nightTextColor = ContextCompat.getColor(itemView.getContext(),
                         R.color.night_text_color);

@@ -1,7 +1,6 @@
 package com.oe.aoepub_viewer.folioreader.ui.adapter;
 
 import android.content.Context;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,22 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.oe.aoepub_viewer.folioreader.Config;
 import com.oe.aoepub_viewer.R;
-import com.oe.aoepub_viewer.folioreader.model.HighlightImpl;
 import com.oe.aoepub_viewer.folioreader.ui.view.UnderlinedTextView;
-import com.oe.aoepub_viewer.folioreader.util.AppUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.BookmarkHolder> {
 
@@ -95,7 +88,7 @@ public class BookmarkAdapter extends RecyclerView.Adapter<BookmarkAdapter.Bookma
                 });
             }
         }, 30);
-        if (config.isNightMode() == 4) {
+        if (config.getColorMode() == 4) {
             holder.container.setBackgroundColor(ContextCompat.getColor(context,
                     R.color.black));
             holder.date.setTextColor(ContextCompat.getColor(context,

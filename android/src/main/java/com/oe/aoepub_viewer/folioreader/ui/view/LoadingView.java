@@ -78,7 +78,7 @@ public class LoadingView extends ConstraintLayout {
         if (config == null)
             config = new Config();
         UiUtil.setColorIntToDrawable(config.getCurrentThemeColor(), progressBar.getIndeterminateDrawable());
-        if (config.isNightMode() == 4) {
+        if (config.getColorMode() == 4) {
             setBackgroundColor(ContextCompat.getColor(getContext(), R.color.night_background_color));
         } else {
             setBackgroundColor(ContextCompat.getColor(getContext(), R.color.day_background_color));

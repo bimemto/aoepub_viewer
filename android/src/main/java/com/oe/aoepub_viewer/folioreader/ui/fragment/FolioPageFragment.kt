@@ -690,7 +690,7 @@ class FolioPageFragment : Fragment(),
     }
 
     private fun updatePagesLeftTextBg() {
-        when (mConfig!!.isNightMode) {
+        when (mConfig!!.colorMode) {
             4 -> {
                 mRootView!!.findViewById<View>(R.id.indicatorLayout)
                         .setBackgroundColor(Color.parseColor("#131313"))

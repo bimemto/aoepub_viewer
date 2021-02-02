@@ -32,6 +32,6 @@ public class ReaderConfig {
         config.setNightThemeColorInt(Color.parseColor(themeColor));
         config.setShowRemainingIndicator(true);
         config.setShowTts(showTts);
-        config.setNightMode(nightMode);
+        //config.setColorMode(nightMode);
     }
 }
