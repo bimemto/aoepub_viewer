@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <item
-        android:id="@+id/itemSearch"
+        android:id="@+id/itemTOC"
         android:icon="@drawable/ic_search"
         android:title="@string/menu_item_search"
         app:actionViewClass="com.folioreader.ui.view.FolioSearchView"

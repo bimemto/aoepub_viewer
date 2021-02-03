@@ -31,7 +31,6 @@ class EpubConfig: NSObject {
         self.config.enableTTS = enableTts
         self.config.hidePageIndicator = false
         super.init()
-        
         self.readerConfiguration()
     }
     

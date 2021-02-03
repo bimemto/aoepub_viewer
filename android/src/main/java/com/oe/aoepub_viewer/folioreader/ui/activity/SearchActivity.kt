@@ -227,7 +227,7 @@ class SearchActivity : AppCompatActivity(), OnItemClickListener {
         menuInflater.inflate(R.menu.menu_search, menu!!)
 
         val config: Config = AppUtil.getSavedConfig(applicationContext)!!
-        val itemSearch: MenuItem = menu.findItem(R.id.itemSearch)
+        val itemSearch: MenuItem = menu.findItem(R.id.itemTOC)
         UiUtil.setColorIntToDrawable(config.currentThemeColor, itemSearch.icon)
 
         searchView = itemSearch.actionView as FolioSearchView
@@ -299,7 +299,7 @@ class SearchActivity : AppCompatActivity(), OnItemClickListener {
 
         val itemId = item.itemId
 
-        if (itemId == R.id.itemSearch) {
+        if (itemId == R.id.itemTOC) {
             Log.v(LOG_TAG, "-> onOptionsItemSelected -> ${item.title}")
             //onSearchRequested()
             return true

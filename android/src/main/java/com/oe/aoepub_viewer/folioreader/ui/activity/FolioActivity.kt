@@ -317,7 +317,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
         val config = AppUtil.getSavedConfig(applicationContext)!!
 
-        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_drawer)
+        val drawable = ContextCompat.getDrawable(this, R.drawable.ic_back)
         UiUtil.setColorIntToDrawable(config.currentThemeColor, drawable!!)
         toolbar!!.navigationIcon = drawable
 
@@ -364,7 +364,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         // Update toolbar colors
         createdMenu?.let { m ->
             UiUtil.setColorIntToDrawable(config.themeColor, m.findItem(R.id.itemBookmark).icon)
-            UiUtil.setColorIntToDrawable(config.themeColor, m.findItem(R.id.itemSearch).icon)
+            UiUtil.setColorIntToDrawable(config.themeColor, m.findItem(R.id.itemTOC).icon)
             UiUtil.setColorIntToDrawable(config.themeColor, m.findItem(R.id.itemConfig).icon)
             UiUtil.setColorIntToDrawable(config.themeColor, m.findItem(R.id.itemTts).icon)
         }
@@ -389,7 +389,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         // Update toolbar colors
         createdMenu?.let { m ->
             UiUtil.setColorIntToDrawable(config.nightThemeColor, m.findItem(R.id.itemBookmark).icon)
-            UiUtil.setColorIntToDrawable(config.nightThemeColor, m.findItem(R.id.itemSearch).icon)
+            UiUtil.setColorIntToDrawable(config.nightThemeColor, m.findItem(R.id.itemTOC).icon)
             UiUtil.setColorIntToDrawable(config.nightThemeColor, m.findItem(R.id.itemConfig).icon)
             UiUtil.setColorIntToDrawable(config.nightThemeColor, m.findItem(R.id.itemTts).icon)
         }
@@ -413,7 +413,7 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
             )
             UiUtil.setColorIntToDrawable(
                     config.currentThemeColor,
-                    menu.findItem(R.id.itemSearch).icon
+                    menu.findItem(R.id.itemTOC).icon
             )
             UiUtil.setColorIntToDrawable(
                     config.currentThemeColor,
@@ -432,80 +432,79 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         //Log.d(LOG_TAG, "-> onOptionsItemSelected -> " + item.getItemId());
-
         val itemId = item.itemId
-
-        if (itemId == android.R.id.home) {
-            Log.v(LOG_TAG, "-> onOptionsItemSelected -> drawer")
-            startContentHighlightActivity()
-            return true
-        } else if (itemId == R.id.itemBookmark) {
-            val readLocator = currentFragment!!.getLastReadLocator()
-            Log.v(LOG_TAG, "-> onOptionsItemSelected 'if' -> bookmark")
-
-            bookmarkReadLocator = readLocator;
-            val localBroadcastManager = LocalBroadcastManager.getInstance(this)
-            val intent = Intent(FolioReader.ACTION_SAVE_READ_LOCATOR)
-            intent.putExtra(FolioReader.EXTRA_READ_LOCATOR, readLocator as Parcelable?)
-            localBroadcastManager.sendBroadcast(intent)
-            val dialog = Dialog(this, R.style.DialogCustomTheme)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog.setContentView(R.layout.dialog_bookmark)
-            dialog.show()
-            dialog.setCanceledOnTouchOutside(true)
-            dialog.setOnCancelListener {
-                Toast.makeText(this,
-                        "please enter a Bookmark name and then press Save",
-                        Toast.LENGTH_SHORT).show()
+        when (itemId) {
+            android.R.id.home -> {
+                Log.v(LOG_TAG, "-> onOptionsItemSelected -> drawer")
+                finish()
+                return true
             }
-            dialog.findViewById<View>(R.id.btn_save_bookmark).setOnClickListener {
-                val name = (dialog.findViewById<View>(R.id.bookmark_name) as EditText).text.toString()
-                if (!TextUtils.isEmpty(name)) {
-                    val simpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
-                    val id = BookmarkTable(this).insertBookmark(mBookId, simpleDateFormat.format(Date()), name, bookmarkReadLocator!!.toJson().toString());
+            R.id.itemBookmark -> {
+                val readLocator = currentFragment!!.getLastReadLocator()
+                Log.v(LOG_TAG, "-> onOptionsItemSelected 'if' -> bookmark")
+
+                bookmarkReadLocator = readLocator;
+                val localBroadcastManager = LocalBroadcastManager.getInstance(this)
+                val intent = Intent(FolioReader.ACTION_SAVE_READ_LOCATOR)
+                intent.putExtra(FolioReader.EXTRA_READ_LOCATOR, readLocator as Parcelable?)
+                localBroadcastManager.sendBroadcast(intent)
+                val dialog = Dialog(this, R.style.DialogCustomTheme)
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.setContentView(R.layout.dialog_bookmark)
+                dialog.show()
+                dialog.setCanceledOnTouchOutside(true)
+                dialog.setOnCancelListener {
                     Toast.makeText(this,
-                            getString(R.string.book_mark_success),
-                            Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this,
-                            "please Enter a Bookmark name and then press Save",
+                            "please enter a Bookmark name and then press Save",
                             Toast.LENGTH_SHORT).show()
                 }
-                dialog.dismiss()
-            }
-
-
-            return true
-        } else if (itemId == R.id.itemSearch) {
-            Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.title)
-            if (searchUri == null)
+                dialog.findViewById<View>(R.id.btn_save_bookmark).setOnClickListener {
+                    val name = (dialog.findViewById<View>(R.id.bookmark_name) as EditText).text.toString()
+                    if (!TextUtils.isEmpty(name)) {
+                        val simpleDateFormat = SimpleDateFormat(DATE_FORMAT, Locale.getDefault())
+                        val id = BookmarkTable(this).insertBookmark(mBookId, simpleDateFormat.format(Date()), name, bookmarkReadLocator!!.toJson().toString());
+                        Toast.makeText(this,
+                                getString(R.string.book_mark_success),
+                                Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this,
+                                "please Enter a Bookmark name and then press Save",
+                                Toast.LENGTH_SHORT).show()
+                    }
+                    dialog.dismiss()
+                }
                 return true
-            val intent = Intent(this, SearchActivity::class.java)
-            intent.putExtra(SearchActivity.BUNDLE_SPINE_SIZE, spine?.size ?: 0)
-            intent.putExtra(SearchActivity.BUNDLE_SEARCH_URI, searchUri)
-            intent.putExtra(SearchAdapter.DATA_BUNDLE, searchAdapterDataBundle)
-            intent.putExtra(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY, searchQuery)
-            startActivityForResult(intent, RequestCode.SEARCH.value)
-            return true
-
-        } else if (itemId == R.id.itemConfig) {
-            Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.title)
-            showConfigBottomSheetDialogFragment()
-            return true
-
-        } else if (itemId == R.id.itemTts) {
-            Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.title)
-            showMediaController()
-            return true
+            }
+            R.id.itemTOC -> {
+                Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.title)
+                startContentHighlightActivity()
+//            if (searchUri == null)
+//                return true
+//            val intent = Intent(this, SearchActivity::class.java)
+//            intent.putExtra(SearchActivity.BUNDLE_SPINE_SIZE, spine?.size ?: 0)
+//            intent.putExtra(SearchActivity.BUNDLE_SEARCH_URI, searchUri)
+//            intent.putExtra(SearchAdapter.DATA_BUNDLE, searchAdapterDataBundle)
+//            intent.putExtra(SearchActivity.BUNDLE_SAVE_SEARCH_QUERY, searchQuery)
+//            startActivityForResult(intent, RequestCode.SEARCH.value)
+                return true
+            }
+            R.id.itemConfig -> {
+                Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.title)
+                showConfigBottomSheetDialogFragment()
+                return true
+            }
+            R.id.itemTts -> {
+                Log.v(LOG_TAG, "-> onOptionsItemSelected -> " + item.title)
+                showMediaController()
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
         }
 
-        return super.onOptionsItemSelected(item)
     }
 
-    fun startContentHighlightActivity() {
-
+    private fun startContentHighlightActivity() {
         val intent = Intent(this@FolioActivity, ContentHighlightActivity::class.java)
-
         intent.putExtra(Constants.PUBLICATION, pubBox!!.publication)
         try {
             intent.putExtra(CHAPTER_SELECTED, spine!![currentChapterIndex].href)
@@ -524,14 +523,14 @@ class FolioActivity : AppCompatActivity(), FolioActivityCallback, MediaControlle
         overridePendingTransition(R.anim.slide_in_left, R.anim.disappear)
     }
 
-    fun showConfigBottomSheetDialogFragment() {
+    private fun showConfigBottomSheetDialogFragment() {
         ConfigBottomSheetDialogFragment().show(
                 supportFragmentManager,
                 ConfigBottomSheetDialogFragment.LOG_TAG
         )
     }
 
-    fun showMediaController() {
+    private fun showMediaController() {
         mediaControllerFragment!!.show(supportFragmentManager)
     }
 

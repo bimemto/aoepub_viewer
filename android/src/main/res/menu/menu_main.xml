@@ -12,15 +12,15 @@
         tools:showAsAction="always" />
 
     <item
-        android:id="@+id/itemSearch"
-        android:icon="@drawable/ic_search"
-        android:title="@string/menu_item_search"
+        android:id="@+id/itemTOC"
+        android:icon="@drawable/ic_chapter_list"
+        android:title="@string/tocReference"
         app:showAsAction="ifRoom"
         tools:showAsAction="always" />
 
     <item
         android:id="@+id/itemConfig"
-        android:icon="@drawable/icon_font"
+        android:icon="@drawable/ic_more"
         android:title="@string/menu_item_config"
         app:showAsAction="ifRoom"
         tools:showAsAction="always" />
